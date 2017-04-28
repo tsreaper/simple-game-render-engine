@@ -13,7 +13,7 @@ class Loader
 public:
     
     // Load vertex position and texture coordinate of a model into VAO
-    static RawModel loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const int* indicies, int indiciesSize);
+    static RawModel* loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const int* indicies, int indiciesSize);
     
     // Create texture from file
     static int loadTexture(const char* filename);

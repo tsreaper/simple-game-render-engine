@@ -1,6 +1,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+// Camera of the 3D world
 class Camera
 {
 public:

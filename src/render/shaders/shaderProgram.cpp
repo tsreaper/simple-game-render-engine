@@ -82,7 +82,7 @@ int ShaderProgram::loadShader(const char* filename, int type)
     
     if (!file.is_open())
     {
-        cerr << "Can't load file " << filename << "!" << endl;
+        cerr << "ERROR: Could not load file " << filename << "!" << endl;
         return -1;
     }
     

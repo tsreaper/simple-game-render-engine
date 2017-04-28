@@ -10,14 +10,14 @@ vector<GLuint> Loader::vbos;
 vector<GLuint> Loader::textures;
 
 // Load vertex position and texture coordinate of a model into VAO
-RawModel Loader::loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const int* indicies, int indiciesSize)
+RawModel* Loader::loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const int* indicies, int indiciesSize)
 {
     int vaoId = createVao();
     bindIndiciesBuffer(indicies, indiciesSize);
     storeDataInAttrList(0, 3, positions, positionSize);
     storeDataInAttrList(1, 2, textureCoords, textureCoordSize);
     unbindVao();
-    return RawModel(vaoId, indiciesSize);
+    return new RawModel(vaoId, indiciesSize);
 }
 
 // Create texture from file

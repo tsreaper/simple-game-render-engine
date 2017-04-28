@@ -1,6 +1,7 @@
 #ifndef GAME_LOGIC_H_
 #define GAME_LOGIC_H_
 
+// Main logic of game
 class GameLogic
 {
 public:
