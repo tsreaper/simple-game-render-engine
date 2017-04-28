@@ -1,17 +1,20 @@
 #include "rawModel.h"
 
+// Constructor
 RawModel::RawModel(GLuint _vaoId, int _vertexCount)
 {
     vaoId = _vaoId;
     vertexCount = _vertexCount;
 }
 
-GLuint RawModel::getVaoId()
+// Get VAO id
+GLuint RawModel::getVaoId() const
 {
     return vaoId;
 }
 
-int RawModel::getVertexCount()
+// Get number of vertex
+int RawModel::getVertexCount() const
 {
     return vertexCount;
 }

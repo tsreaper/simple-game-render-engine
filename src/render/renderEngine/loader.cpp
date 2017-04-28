@@ -1,10 +1,16 @@
 #include <iostream>
-#include "../thirdparty/lodepng.h"
+#include "../../thirdparty/lodepng.h"
 #include "loader.h"
 
 using namespace std;
 
-RawModel Loader::loadToVao(float* positions, int positionSize, float* textureCoords, int textureCoordSize, int* indicies, int indiciesSize)
+// VAO, VBO and texture lists. Used for clean up
+vector<GLuint> Loader::vaos;
+vector<GLuint> Loader::vbos;
+vector<GLuint> Loader::textures;
+
+// Load vertex position and texture coordinate of a model into VAO
+RawModel Loader::loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const int* indicies, int indiciesSize)
 {
     int vaoId = createVao();
     bindIndiciesBuffer(indicies, indiciesSize);
@@ -14,7 +20,8 @@ RawModel Loader::loadToVao(float* positions, int positionSize, float* textureCoo
     return RawModel(vaoId, indiciesSize);
 }
 
-int Loader::loadTexture(char* filename)
+// Create texture from file
+int Loader::loadTexture(const char* filename)
 {
     unsigned error;
     unsigned char* image;
@@ -41,6 +48,7 @@ int Loader::loadTexture(char* filename)
     return texId[0];
 }
 
+// Clean up VAOs, VBOs and textures
 void Loader::cleanUp()
 {
     glDeleteVertexArrays(vaos.size(), &(*vaos.begin()));
@@ -48,6 +56,7 @@ void Loader::cleanUp()
     glDeleteTextures(textures.size(), &(*textures.begin()));
 }
 
+// Create a VAO
 int Loader::createVao()
 {
     GLuint arrays[1];
@@ -57,7 +66,8 @@ int Loader::createVao()
     return arrays[0];
 }
 
-void Loader::storeDataInAttrList(int attrNumber, int dimension, float* data, int size)
+// Create a VBO of vertex data and store it into VAO
+void Loader::storeDataInAttrList(int attrNumber, int dimension, const float* data, int size)
 {
     GLuint buffers[1];
     glGenBuffers(1, buffers);
@@ -68,12 +78,14 @@ void Loader::storeDataInAttrList(int attrNumber, int dimension, float* data, int
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+// Unbind current VAO
 void Loader::unbindVao()
 {
     glBindVertexArray(0);
 }
 
-void Loader::bindIndiciesBuffer(int* indicies, int size)
+// Create a VBO of index data
+void Loader::bindIndiciesBuffer(const int* indicies, int size)
 {
     GLuint buffers[1];
     glGenBuffers(1, buffers);

@@ -1,15 +1,20 @@
 #ifndef MODEL_TEXTURE_H_
 #define MODEL_TEXTURE_H_
 
+// Texture of a model
 class ModelTexture
 {
-    public:
+public:
     
+    // Constructor
     ModelTexture(int id);
-    int getId();
     
-    private:
+    // Get texture id
+    int getId() const;
     
+private:
+    
+    // Texture id
     int textureId;
 };
 

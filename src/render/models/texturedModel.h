@@ -4,17 +4,26 @@
 #include "rawModel.h"
 #include "../textures/modelTexture.h"
 
+// Model with texture
 class TexturedModel
 {
-    public:
+public:
     
+    // Constructor
     TexturedModel(RawModel* _raw, ModelTexture* _texture);
-    RawModel* getRaw();
-    ModelTexture* getTexture();
     
-    private:
+    // Get raw model pointer
+    RawModel* getRaw() const;
     
+    // Get texture pointer
+    ModelTexture* getTexture() const;
+    
+private:
+    
+    // Raw model pointer
     RawModel* raw;
+    
+    // Texture pointer
     ModelTexture* texture;
 };
 

@@ -1,17 +1,20 @@
 #include "texturedModel.h"
 
+// Constructor
 TexturedModel::TexturedModel(RawModel* _raw, ModelTexture* _texture)
 {
     raw = _raw;
     texture = _texture;
 }
 
-RawModel* TexturedModel::getRaw()
+// Get raw model pointer
+RawModel* TexturedModel::getRaw() const
 {
     return raw;
 }
 
-ModelTexture* TexturedModel::getTexture()
+// Get texture pointer
+ModelTexture* TexturedModel::getTexture() const
 {
     return texture;
 }
