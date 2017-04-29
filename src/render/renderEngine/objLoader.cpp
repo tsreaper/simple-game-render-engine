@@ -93,7 +93,7 @@ TexturedModel* ObjLoader::loadObj(const char* objName)
     RawModel *raw = Loader::loadToVao(verticies, mp.size()*3, texCoords, mp.size()*2, norms, mp.size()*3, indicies, f.size()*3);
     
     // Load texture
-    ModelTexture* texture = new ModelTexture(Loader::loadTexture(("res/" + string(objName) + "Texture.png").c_str()));
+    ModelTexture* texture = new ModelTexture(Loader::loadTexture(("res/" + string(objName) + "Texture.png").c_str()), 0, 1);
     TexturedModel* model = new TexturedModel(raw, texture);
     
     // Clean up

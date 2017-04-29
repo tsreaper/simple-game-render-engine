@@ -67,6 +67,10 @@ void Renderer::render(const Entity* entity, const Light* light)
     shader->loadLightPos(light->getX(), light->getY(), light->getZ());
     shader->loadLightCol(light->getR(), light->getG(), light->getB());
     
+    // Load texture reflectivity
+    shader->loadReflectivity(model->getTexture()->getReflectivity());
+    shader->loadShineDamper(model->getTexture()->getShineDamper());
+    
     // Draw model
     glDrawElements(GL_TRIANGLES, raw->getVertexCount(), GL_UNSIGNED_INT, NULL);
     

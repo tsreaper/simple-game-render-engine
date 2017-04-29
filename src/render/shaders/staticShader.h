@@ -32,6 +32,12 @@ public:
     // Load light color into shader program
     void loadLightCol(float r, float g, float b);
     
+    // Load texture reflectivity into shader program
+    void loadReflectivity(float reflectivity);
+
+    // Load texture shine damper into shader program
+    void loadShineDamper(float shineDamper);
+    
 protected:
     
     // Get all uniform locations
@@ -56,6 +62,12 @@ private:
     
     // Location of light color in shader program
     int lightColLoc;
+    
+    // Location of texture reflectivity in shader program
+    float reflectivityLoc;
+    
+    // Location of shine damper in shader program
+    float shineDamperLoc;
 };
 
 #endif

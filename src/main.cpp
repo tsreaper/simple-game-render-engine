@@ -21,8 +21,10 @@ int main (int argc,  char** argv)
     Renderer::setShader(&shader);
     
     TexturedModel* model = ObjLoader::loadObj("dragon");
+    model->getTexture()->setReflectivity(1);
+    model->getTexture()->setShineDamper(10);
     Entity* entity = new Entity(model, 0, -5, -25);
-    Light* light = new Light(0, 0, -20, 1, 1, 1);
+    Light* light = new Light(200, 200, 100, 1, 1, 1);
     
     while (!DisplayManager::isExiting())
     {

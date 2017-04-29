@@ -47,6 +47,18 @@ void StaticShader::loadLightCol(float r, float g, float b)
     loadVector3(lightColLoc, r, g, b);
 }
 
+// Load texture reflectivity into shader program
+void StaticShader::loadReflectivity(float reflectivity)
+{
+    loadFloat(reflectivityLoc, reflectivity);
+}
+
+// Load texture shine damper into shader program
+void StaticShader::loadShineDamper(float shineDamper)
+{
+    loadFloat(shineDamperLoc, shineDamper);
+}
+
 // Get all uniform locations
 void StaticShader::getAllUniformLocs()
 {
@@ -55,6 +67,8 @@ void StaticShader::getAllUniformLocs()
     projMatrixLoc = getUniformLoc("projMatrix");
     lightPosLoc = getUniformLoc("lightPos");
     lightColLoc = getUniformLoc("lightCol");
+    reflectivityLoc = getUniformLoc("reflectivity");
+    shineDamperLoc = getUniformLoc("shineDamper");
 }
 
 // Bind VAO attributes

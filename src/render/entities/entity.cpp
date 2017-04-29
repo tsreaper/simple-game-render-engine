@@ -1,7 +1,7 @@
 #include "entity.h"
 
 // Constructor
-Entity::Entity(TexturedModel* _model, float _tX = 0, float _tY = 0, float _tZ = 0)
+Entity::Entity(TexturedModel* _model, float _tX, float _tY, float _tZ)
 {
     model = _model;
     tX = _tX;

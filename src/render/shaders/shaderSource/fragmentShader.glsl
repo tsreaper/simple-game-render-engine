@@ -3,16 +3,28 @@
 in vec2 passCoord;
 in vec3 vertexNorm;
 in vec3 toLightVec;
+in vec3 toCameraVec;
 
 out vec4 pixel;
 
 uniform sampler2D textureSampler;
+
 uniform vec3 lightCol;
+
+uniform float reflectivity;
+uniform float shineDamper;
 
 void main(void)
 {
-    float brightness = max(dot(normalize(vertexNorm), normalize(toLightVec)), 0.0);
+    vec3 unitNorm = normalize(vertexNorm);
+    vec3 unitLight = normalize(toLightVec);
+    vec3 unitCamera = normalize(toCameraVec);
+    
+    float brightness = max(dot(unitNorm, unitLight), 0.0);
     vec3 diffuse = brightness * lightCol;
     
-    pixel = vec4(diffuse, 1.0) * texture(textureSampler, passCoord);
+    vec3 reflectDir = reflect(-unitLight, unitNorm);
+    vec3 specular = pow(max(dot(reflectDir, unitCamera), 0.0), shineDamper) * reflectivity * lightCol;
+    
+    pixel = vec4(diffuse, 1.0) * texture(textureSampler, passCoord) + vec4(specular, 1.0);
 }
