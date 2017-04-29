@@ -26,6 +26,12 @@ public:
     // Load projection matrix into shader program
     void loadProjMatrix(const float* matrix);
     
+    // Load light position into shader program
+    void loadLightPos(float x, float y, float z);
+    
+    // Load light color into shader program
+    void loadLightCol(float r, float g, float b);
+    
 protected:
     
     // Get all uniform locations
@@ -44,6 +50,12 @@ private:
     
     // Location of projection matrix in shader program
     int projMatrixLoc;
+    
+    // Location of light position in shader program
+    int lightPosLoc;
+    
+    // Location of light color in shader program
+    int lightColLoc;
 };
 
 #endif

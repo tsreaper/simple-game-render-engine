@@ -9,13 +9,14 @@ vector<GLuint> Loader::vaos;
 vector<GLuint> Loader::vbos;
 vector<GLuint> Loader::textures;
 
-// Load vertex position and texture coordinate of a model into VAO
-RawModel* Loader::loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const int* indicies, int indiciesSize)
+// Load vertex positions, texture coordinates, normal vectors and indicies of a model into VAO
+RawModel* Loader::loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const float* norms, int normSize, const int* indicies, int indiciesSize)
 {
     int vaoId = createVao();
     bindIndiciesBuffer(indicies, indiciesSize);
     storeDataInAttrList(0, 3, positions, positionSize);
     storeDataInAttrList(1, 2, textureCoords, textureCoordSize);
+    storeDataInAttrList(2, 3, norms, normSize);
     unbindVao();
     return new RawModel(vaoId, indiciesSize);
 }

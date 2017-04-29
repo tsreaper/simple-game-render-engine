@@ -63,9 +63,9 @@ void ShaderProgram::loadBool(int loc, bool value)
 }
 
 // Load 3D vector into uniform by location
-void ShaderProgram::loadVector3(int loc, const float *value)
+void ShaderProgram::loadVector3(int loc, float x, float y, float z)
 {
-    glUniform3f(loc, value[0], value[1], value[2]);
+    glUniform3f(loc, x, y, z);
 }
 
 // Load 4x4 matrix into uniform by location

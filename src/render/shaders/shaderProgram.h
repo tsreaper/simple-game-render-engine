@@ -44,7 +44,7 @@ protected:
     void loadBool(int loc, bool value);
     
     // Load 3D vector into uniform by location
-    void loadVector3(int loc, const float *value);
+    void loadVector3(int loc, float x, float y, float z);
     
     // Load 4x4 matrix into uniform by location
     void loadMatrix4(int loc, const float *value);

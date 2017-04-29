@@ -22,21 +22,22 @@ StaticShader* Renderer::shader = NULL;
 void Renderer::prepare()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0, 0.7, 0.3, 1);
+    glClearColor(0, 0.05, 0.2, 1);
 }
 
 // Render a model
-void Renderer::render(const Entity* entity)
+void Renderer::render(const Entity* entity, const Light* light)
 {
     shader->start();
     
     TexturedModel* model = entity->getModel();
     RawModel* raw = model->getRaw();
     
-    // Enable positions and texture coordinates
+    // Enable positions, texture coordinates and normal vectors
     glBindVertexArray(raw->getVaoId());
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, model->getTexture()->getId());
     
@@ -62,12 +63,17 @@ void Renderer::render(const Entity* entity)
     );
     shader->loadProjMatrix(projMatrix);
     
+    // Load light
+    shader->loadLightPos(light->getX(), light->getY(), light->getZ());
+    shader->loadLightCol(light->getR(), light->getG(), light->getB());
+    
     // Draw model
     glDrawElements(GL_TRIANGLES, raw->getVertexCount(), GL_UNSIGNED_INT, NULL);
     
-    // Disable positions and texture coordinates
+    // Disable positions, texture coordinates and normal vectors
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
     

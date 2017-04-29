@@ -48,6 +48,7 @@ TexturedModel* ObjLoader::loadObj(const char* objName)
         else if (t == "vn")
         {
             // Vertex normal
+            obj >> x >> y >> z;
             vn.push_back(new float[3] {x, y, z});
         }
         else if (t == "f")
@@ -67,9 +68,10 @@ TexturedModel* ObjLoader::loadObj(const char* objName)
     }
     obj.close();
     
-    // Calculate position, texture coordinates and indicies
+    // Calculate position, texture coordinates, normal vectors and indicies
     float* verticies = new float[mp.size()*3];
     float* texCoords = new float[mp.size()*2];
+    float* norms = new float[mp.size()*3];
     int* indicies = new int[f.size()*3];
     
     int a, b, c;
@@ -83,10 +85,12 @@ TexturedModel* ObjLoader::loadObj(const char* objName)
                 verticies[id*3+k] = v[a-1][k];
             for (int k = 0; k < 2; k++)
                 texCoords[id*2+k] = vt[b-1][k];
+            for (int k = 0; k < 3; k++)
+                norms[id*3+k] = vn[c-1][k];
         }
     
     // Put information into raw model
-    RawModel *raw = Loader::loadToVao(verticies, mp.size()*3, texCoords, mp.size()*2, indicies, f.size()*3);
+    RawModel *raw = Loader::loadToVao(verticies, mp.size()*3, texCoords, mp.size()*2, norms, mp.size()*3, indicies, f.size()*3);
     
     // Load texture
     ModelTexture* texture = new ModelTexture(Loader::loadTexture(("res/" + string(objName) + "Texture.png").c_str()));

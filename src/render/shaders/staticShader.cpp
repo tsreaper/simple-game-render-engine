@@ -2,10 +2,10 @@
 #include "staticShader.h"
 
 // Vertex shader file name
-const char* StaticShader::VERTEX_FILE = "src/render/shaders/shaderSource/vertexShader.txt";
+const char* StaticShader::VERTEX_FILE = "src/render/shaders/shaderSource/vertexShader.glsl";
 
 // Static shader file name
-const char* StaticShader::FRAGMENT_FILE = "src/render/shaders/shaderSource/fragmentShader.txt";
+const char* StaticShader::FRAGMENT_FILE = "src/render/shaders/shaderSource/fragmentShader.glsl";
 
 // Constructor
 StaticShader::StaticShader(): ShaderProgram(VERTEX_FILE, FRAGMENT_FILE)
@@ -35,12 +35,26 @@ void StaticShader::loadProjMatrix(const float* matrix)
     loadMatrix4(projMatrixLoc, matrix);
 }
 
+// Load light position into shader program
+void StaticShader::loadLightPos(float x, float y, float z)
+{
+    loadVector3(lightPosLoc, x, y, z);
+}
+
+// Load light color into shader program
+void StaticShader::loadLightCol(float r, float g, float b)
+{
+    loadVector3(lightColLoc, r, g, b);
+}
+
 // Get all uniform locations
 void StaticShader::getAllUniformLocs()
 {
     transMatrixLoc = getUniformLoc("transMatrix");
     cameraMatrixLoc = getUniformLoc("cameraMatrix");
     projMatrixLoc = getUniformLoc("projMatrix");
+    lightPosLoc = getUniformLoc("lightPos");
+    lightColLoc = getUniformLoc("lightCol");
 }
 
 // Bind VAO attributes
@@ -48,5 +62,6 @@ void StaticShader::bindAttributes()
 {
     // Bind vertex position and texture coordinate
     bindAttribute(0, "position");
-    bindAttribute(1, "textureCoords");
+    bindAttribute(1, "textureCoord");
+    bindAttribute(2, "norm");
 }

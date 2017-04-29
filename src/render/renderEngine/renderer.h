@@ -2,6 +2,7 @@
 #define RENDERER_H_
 
 #include "../entities/entity.h"
+#include "../entities/light.h"
 #include "../shaders/staticShader.h"
 
 // Model renderer
@@ -13,7 +14,7 @@ public:
     static void prepare();
     
     // Render a model
-    static void render(const Entity* entity);
+    static void render(const Entity* entity, const Light* light);
     
     // Set current shader
     static void setShader(StaticShader* _shader);
