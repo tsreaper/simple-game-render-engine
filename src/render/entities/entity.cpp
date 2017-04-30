@@ -1,14 +1,19 @@
+#include "../renderEngine/memoryManager.h"
 #include "entity.h"
 
 // Constructor
-Entity::Entity(TexturedModel* _model, float _tX, float _tY, float _tZ)
+Entity::Entity(TexturedModel* _model)
 {
     model = _model;
-    tX = _tX;
-    tY = _tY;
-    tZ = _tZ;
+    tX = tY = tZ = 0;
     rX = rY = rX = 0;
     scale = 1;
+}
+
+// Destructor
+Entity::~Entity()
+{
+    MemoryManager::deleteTexturedModel(model);
 }
 
 // Increase position

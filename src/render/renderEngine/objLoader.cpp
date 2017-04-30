@@ -5,21 +5,19 @@
 #include <string>
 #include <unordered_map>
 #include "loader.h"
-#include "../models/rawModel.h"
-#include "../textures/modelTexture.h"
 #include "objLoader.h"
 
 using namespace std;
 
 // Load an obj file
-TexturedModel* ObjLoader::loadObj(const char* objName)
+RawModel* ObjLoader::loadObj(const char* objFile)
 {
     // Load obj from file
-    ifstream obj("res/" + string(objName) + ".obj");
+    ifstream obj("res/" + string(objFile));
     
     if (!obj.is_open())
     {
-        cerr << "ERROR: Could not load file " << "res/" + string(objName) + ".obj" << "!" << endl;
+        cerr << "ERROR: Could not load file " << "res/" << string(objFile) << "!" << endl;
         return NULL;
     }
     
@@ -90,11 +88,7 @@ TexturedModel* ObjLoader::loadObj(const char* objName)
         }
     
     // Put information into raw model
-    RawModel *raw = Loader::loadToVao(verticies, mp.size()*3, texCoords, mp.size()*2, norms, mp.size()*3, indicies, f.size()*3);
-    
-    // Load texture
-    ModelTexture* texture = new ModelTexture(Loader::loadTexture(("res/" + string(objName) + "Texture.png").c_str()), 0, 1);
-    TexturedModel* model = new TexturedModel(raw, texture);
+    RawModel *raw = Loader::loadRawModel(objFile, verticies, mp.size()*3, texCoords, mp.size()*2, norms, mp.size()*3, indicies, f.size()*3);
     
     // Clean up
     for (int i = 0; i < v.size(); i++)
@@ -106,5 +100,5 @@ TexturedModel* ObjLoader::loadObj(const char* objName)
     for (int i = 0; i < f.size(); i++)
         delete[] f[i];
     
-    return model;
+    return raw;
 }

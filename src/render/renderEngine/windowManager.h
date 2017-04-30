@@ -1,21 +1,22 @@
-#ifndef DISPLAY_MANAGER_H_
-#define DISPLAY_MANAGER_H_
+#ifndef WINDOW_MANAGER_H_
+#define WINDOW_MANAGER_H_
 
+#include "../../glew.h"
 #include <GLFW/glfw3.h>
 
 // Class for displaying window
-class DisplayManager
+class WindowManager
 {
 public:
     
     // Window width
-    static const int DISPLAY_WIDTH;
+    static const int WINDOW_WIDTH;
     
     // Window height
-    static const int DISPLAY_HEIGHT;
+    static const int WINDOW_HEIGHT;
     
     // Window title
-    static const char* DISPLAY_TITLE;
+    static const char* WINDOW_TITLE;
     
     // Check if a key is pressed
     static bool isKeyPressed(int key);

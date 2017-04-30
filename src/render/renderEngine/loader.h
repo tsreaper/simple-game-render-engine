@@ -4,6 +4,7 @@
 #include <vector>
 #include "../../glew.h"
 #include "../models/rawModel.h"
+#include "../textures/modelTexture.h"
 
 using namespace std;
 
@@ -12,31 +13,25 @@ class Loader
 {
 public:
     
-    // Load vertex position and texture coordinate of a model into VAO
-    static RawModel* loadToVao(const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const float* norms, int normSize, const int* indicies, int indiciesSize);
+    // Create VAO and load a raw model
+    static RawModel* loadRawModel(const char* name, const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const float* norms, int normSize, const int* indicies, int indiciesSize);
     
     // Create texture from file
-    static int loadTexture(const char* filename);
-    
-    // Clean up VAOs, VBOs and textures
-    static void cleanUp();
+    static ModelTexture* loadTexture(const char* filename);
     
 private:
-    
-    // VAO, VBO and texture lists. Used for clean up
-    static vector<GLuint> vaos, vbos, textures;
     
     // Create a VAO
     static int createVao();
     
+    // Create a VBO of index data
+    static int bindIndiciesBuffer(const int* indicies, int size);
+    
     // Create a VBO of vertex data and store it into VAO
-    static void storeDataInAttrList(int attrNumber, int dimension, const float* data, int size);
+    static int storeDataInAttrList(int attrNumber, int dimension, const float* data, int size);
     
     // Unbind current VAO
     static void unbindVao();
-    
-    // Create a VBO of index data
-    static void bindIndiciesBuffer(const int* indicies, int size);
 };
 
 #endif

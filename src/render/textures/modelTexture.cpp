@@ -1,11 +1,24 @@
 #include "modelTexture.h"
 
 // Constructor
-ModelTexture::ModelTexture(int id, float _reflectivity, float _shineDamper)
+ModelTexture::ModelTexture(const char* _name, GLuint id)
 {
+    name = _name;
     textureId = id;
-    reflectivity = _reflectivity;
-    shineDamper = _shineDamper;
+    reflectivity = 0;
+    shineDamper = 1;
+}
+
+// Destructor
+ModelTexture::~ModelTexture()
+{
+    glDeleteTextures(1, &textureId);
+}
+
+// Get texture name
+const char* ModelTexture::getName() const
+{
+    return name.c_str();
 }
 
 // Get texture id

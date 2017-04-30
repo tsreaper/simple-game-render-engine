@@ -1,7 +1,7 @@
 #ifndef STATIC_PROGRAM_H_
 #define STATIC_PROGRAM_H_
 
-using namespace std;
+#include "../../glew.h"
 
 // Base class for shader
 class ShaderProgram

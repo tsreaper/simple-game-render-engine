@@ -1,7 +1,7 @@
 #ifndef OBJ_LOADER_H_
 #define OBJ_LOADER_H_
 
-#include "../models/texturedModel.h"
+#include "../models/rawModel.h"
 
 // Obj file loader
 class ObjLoader
@@ -9,7 +9,7 @@ class ObjLoader
 public:
     
     // Load an obj file
-    static TexturedModel* loadObj(const char* objName);
+    static RawModel* loadObj(const char* objFile);
 };
 
 #endif

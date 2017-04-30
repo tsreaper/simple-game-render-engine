@@ -1,34 +1,33 @@
 #include <cstdlib>
 #include <iostream>
-#include "../../glew.h"
 #include "../entities/camera.h"
-#include "displayManager.h"
+#include "windowManager.h"
 
 using namespace std;
 
 // Window width
-const int DisplayManager::DISPLAY_WIDTH = 1280;
+const int WindowManager::WINDOW_WIDTH = 1280;
 
 // Window height
-const int DisplayManager::DISPLAY_HEIGHT = 720;
+const int WindowManager::WINDOW_HEIGHT = 720;
 
 // Window title
-const char* DisplayManager::DISPLAY_TITLE = "OpenGL Game";
+const char* WindowManager::WINDOW_TITLE = "OpenGL Game";
 
 // Window pointer
-GLFWwindow* DisplayManager::window = NULL;
+GLFWwindow* WindowManager::window = NULL;
 
 // Key pressed status
-bool* DisplayManager::keyPressed = new bool[500]();
+bool* WindowManager::keyPressed = new bool[500]();
 
 // Check if a key is pressed
-bool DisplayManager::isKeyPressed(int key)
+bool WindowManager::isKeyPressed(int key)
 {
     return keyPressed[key];
 }
 
 // Create window
-void DisplayManager::createDisplay()
+void WindowManager::createDisplay()
 {
     // Set error callback
     glfwSetErrorCallback(errorCallback);
@@ -44,7 +43,7 @@ void DisplayManager::createDisplay()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
     
-    window = glfwCreateWindow(DISPLAY_WIDTH, DISPLAY_HEIGHT, DISPLAY_TITLE, NULL, NULL);
+    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, NULL, NULL);
     
     // Check if the window is created
     if (window == NULL)
@@ -71,17 +70,19 @@ void DisplayManager::createDisplay()
 	}
     
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 }
 
 // Refresh window
-void DisplayManager::updateDisplay()
+void WindowManager::updateDisplay()
 {
     glfwSwapBuffers(window);
 	glfwPollEvents();
 }
 
 // Close window
-void DisplayManager::destroyDisplay()
+void WindowManager::destroyDisplay()
 {
     delete[] keyPressed;
     glfwDestroyWindow(window);
@@ -89,13 +90,13 @@ void DisplayManager::destroyDisplay()
 }
 
 // Check if the window should close
-bool DisplayManager::isExiting()
+bool WindowManager::isExiting()
 {
     return glfwWindowShouldClose(window);
 }
 
 // Keyboard callback
-void DisplayManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void WindowManager::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (action == GLFW_PRESS)
         keyPressed[key] = true;
@@ -104,7 +105,7 @@ void DisplayManager::keyCallback(GLFWwindow* window, int key, int scancode, int 
 }
 
 // Error callback
-void DisplayManager::errorCallback(int error, const char* description)
+void WindowManager::errorCallback(int error, const char* description)
 {
     cerr << "ERROR: " << description << endl;
 }

@@ -1,6 +1,7 @@
 #ifndef STATIC_SHADER_H_
 #define STATIC_SHADER_H_
 
+#include "../../glew.h"
 #include "shaderProgram.h"
 
 // Shader for static model

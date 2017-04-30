@@ -1,8 +1,11 @@
 #ifndef TEXTURE_MODEL_H_
 #define TEXTURE_MODEL_H_
 
+#include <string>
 #include "rawModel.h"
 #include "../textures/modelTexture.h"
+
+using namespace std;
 
 // Model with texture
 class TexturedModel
@@ -10,7 +13,13 @@ class TexturedModel
 public:
     
     // Constructor
-    TexturedModel(RawModel* _raw, ModelTexture* _texture);
+    TexturedModel(const char* _name, RawModel* _raw, ModelTexture* _texture);
+    
+    // Destructor
+    ~TexturedModel();
+    
+    // Get model name
+    const char* getName() const;
     
     // Get raw model pointer
     RawModel* getRaw() const;
@@ -19,6 +28,9 @@ public:
     ModelTexture* getTexture() const;
     
 private:
+    
+    // Model name
+    string name;
     
     // Raw model pointer
     RawModel* raw;

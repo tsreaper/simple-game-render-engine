@@ -1,13 +1,24 @@
 #ifndef MODEL_TEXTURE_H_
 #define MODEL_TEXTURE_H_
 
+#include <string>
+#include "../../glew.h"
+
+using namespace std;
+
 // Texture of a model
 class ModelTexture
 {
 public:
     
     // Constructor
-    ModelTexture(int id, float _reflectivity, float _shineDamper);
+    ModelTexture(const char* _name, GLuint id);
+    
+    // Destructor
+    ~ModelTexture();
+    
+    // Get texture name
+    const char* getName() const;
     
     // Get texture id
     int getId() const;
@@ -26,8 +37,11 @@ public:
     
 private:
     
+    // Texture name
+    string name;
+    
     // Texture id
-    int textureId;
+    GLuint textureId;
     
     // Reflectivity
     float reflectivity;

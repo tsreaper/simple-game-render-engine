@@ -1,6 +1,5 @@
-#include "../../glew.h"
 #include "../../utils/math.h"
-#include "displayManager.h"
+#include "windowManager.h"
 #include "../models/rawModel.h"
 #include "../models/texturedModel.h"
 #include "../entities/camera.h"
@@ -15,9 +14,6 @@ const float Renderer::Z_NEAR = 0.1;
 // Far projection plane
 const float Renderer::Z_FAR = 100;
 
-// Shader program used for rendering
-StaticShader* Renderer::shader = NULL;
-
 // Clear screen and prepare to render
 void Renderer::prepare()
 {
@@ -25,22 +21,9 @@ void Renderer::prepare()
     glClearColor(0, 0.05, 0.2, 1);
 }
 
-// Render a model
-void Renderer::render(const Entity* entity, const Light* light)
+// Render an entity
+void Renderer::render(const Entity* entity, StaticShader* shader)
 {
-    shader->start();
-    
-    TexturedModel* model = entity->getModel();
-    RawModel* raw = model->getRaw();
-    
-    // Enable positions, texture coordinates and normal vectors
-    glBindVertexArray(raw->getVaoId());
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, model->getTexture()->getId());
-    
     // Calculate transformation matrix
     float* transMatrix = Math::createTransMatrix(
         entity->getTX(), entity->getTY(), entity->getTZ(),
@@ -58,30 +41,13 @@ void Renderer::render(const Entity* entity, const Light* light)
     
     // Calculate projection matrix
     float* projMatrix = Math::createProjMatrix(
-        1.0 * DisplayManager::DISPLAY_WIDTH / DisplayManager::DISPLAY_HEIGHT,
+        1.0 * WindowManager::WINDOW_WIDTH / WindowManager::WINDOW_HEIGHT,
         FOV, Z_NEAR, Z_FAR
     );
     shader->loadProjMatrix(projMatrix);
     
-    // Load light
-    shader->loadLightPos(light->getX(), light->getY(), light->getZ());
-    shader->loadLightCol(light->getR(), light->getG(), light->getB());
-    
-    // Load texture reflectivity
-    shader->loadReflectivity(model->getTexture()->getReflectivity());
-    shader->loadShineDamper(model->getTexture()->getShineDamper());
-    
     // Draw model
-    glDrawElements(GL_TRIANGLES, raw->getVertexCount(), GL_UNSIGNED_INT, NULL);
-    
-    // Disable positions, texture coordinates and normal vectors
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glBindVertexArray(0);
-    
-    shader->stop();
+    glDrawElements(GL_TRIANGLES, entity->getModel()->getRaw()->getVertexCount(), GL_UNSIGNED_INT, NULL);
     
     // Clean up matrices
     delete[] transMatrix;
@@ -89,8 +55,30 @@ void Renderer::render(const Entity* entity, const Light* light)
     delete[] projMatrix;
 }
 
-// Set current shader
-void Renderer::setShader(StaticShader* _shader)
+// Bind a textured model
+void Renderer::bindTexturedModel(const TexturedModel* model, StaticShader* shader)
 {
-    shader = _shader;
+    // Bind raw model
+    RawModel* raw = model->getRaw();
+    glBindVertexArray(raw->getVaoId());
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    
+    // Bind texture
+    ModelTexture* texture = model->getTexture();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture->getId());
+    shader->loadReflectivity(texture->getReflectivity());
+    shader->loadShineDamper(texture->getShineDamper());
+}
+
+// Unbind a textured model
+void Renderer::unbindTexturedModel()
+{
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindVertexArray(0);
 }

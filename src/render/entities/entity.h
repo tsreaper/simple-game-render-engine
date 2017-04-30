@@ -8,7 +8,10 @@ class Entity
 {
 public:
     // Constructor
-    Entity(TexturedModel* _model, float _tX, float _tY, float _tZ);
+    Entity(TexturedModel* _model);
+    
+    // Destructor
+    ~Entity();
     
     // Increase position
     void incPosition(float x, float y, float z);

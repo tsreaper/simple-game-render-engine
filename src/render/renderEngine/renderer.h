@@ -1,6 +1,7 @@
 #ifndef RENDERER_H_
 #define RENDERER_H_
 
+#include "../../glew.h"
 #include "../entities/entity.h"
 #include "../entities/light.h"
 #include "../shaders/staticShader.h"
@@ -13,11 +14,14 @@ public:
     // Clear screen and prepare to render
     static void prepare();
     
-    // Render a model
-    static void render(const Entity* entity, const Light* light);
+    // Render an entity
+    static void render(const Entity* entity, StaticShader* shader);
     
-    // Set current shader
-    static void setShader(StaticShader* _shader);
+    // Bind a textured model
+    static void bindTexturedModel(const TexturedModel* model, StaticShader* shader);
+    
+    // Unbind a textured model
+    static void unbindTexturedModel();
 
 private:
     
@@ -29,9 +33,6 @@ private:
     
     // Far projection plane
     static const float Z_FAR;
-    
-    // Shader program used for rendering
-    static StaticShader* shader;
 };
 
 #endif

@@ -1,4 +1,3 @@
-#include "../../glew.h"
 #include "staticShader.h"
 
 // Vertex shader file name

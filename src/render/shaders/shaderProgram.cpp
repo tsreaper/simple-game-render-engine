@@ -1,7 +1,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "../../glew.h"
 #include "shaderProgram.h"
 
 using namespace std;
