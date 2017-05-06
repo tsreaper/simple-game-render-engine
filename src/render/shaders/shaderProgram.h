@@ -29,7 +29,7 @@ protected:
     virtual void getAllUniformLocs() = 0;
     
     // Get uniform location in the shader program by name
-    getUniformLoc(const char* uniName);
+    int getUniformLoc(const char* uniName);
     
     // Interface. Bind VAO attributes
     virtual void bindAttributes() = 0;
@@ -39,6 +39,9 @@ protected:
     
     // Load float into uniform by location
     void loadFloat(int loc, float value);
+    
+    // Load int into uniform by location
+    void loadInt(int loc, int value);
     
     // Load boolean into uniform by location
     void loadBool(int loc, bool value);

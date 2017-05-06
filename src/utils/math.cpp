@@ -1,6 +1,17 @@
 #include <cmath>
 #include "math.h"
 
+// Normalize a vector
+void Math::normalize(float* vec, int d)
+{
+    float len = 0;
+    for (int i = 0; i < d; i++)
+        len += vec[i] * vec[i];
+    len = sqrt(len);
+    for (int i = 0; i < d; i++)
+        vec[i] /= len;
+}
+
 // Create a 4x4 transformation matrix
 float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
 {

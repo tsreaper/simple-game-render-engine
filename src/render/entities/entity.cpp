@@ -1,4 +1,4 @@
-#include "../renderEngine/memoryManager.h"
+#include "../engine/memoryManager.h"
 #include "entity.h"
 
 // Constructor
@@ -6,7 +6,7 @@ Entity::Entity(TexturedModel* _model)
 {
     model = _model;
     tX = tY = tZ = 0;
-    rX = rY = rX = 0;
+    rX = rY = rZ = 0;
     scale = 1;
 }
 

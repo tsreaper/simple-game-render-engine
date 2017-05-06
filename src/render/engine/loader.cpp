@@ -31,7 +31,10 @@ ModelTexture* Loader::loadTexture(const char* filename)
     // Load image using lodepng
     error = lodepng_decode32_file(&image, &width, &height, ("res/" + string(filename)).c_str());
     if (error)
+    {
         cerr << "ERROR: [Loader] PNG decoder error " << error << " - " << lodepng_error_text(error) << endl;
+        return NULL;
+    }
     
     // Generate texture
     GLuint texId[1];

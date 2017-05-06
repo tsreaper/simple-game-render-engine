@@ -28,12 +28,18 @@ public:
 
     // Get shine damper
     float getShineDamper() const;
+    
+    // Get transparency
+    bool getTransparency() const;
 
     // Set reflectivity
     void setReflectivity(float _reflectivity);
 
     // Set shine damper
     void setShineDamper(float _shineDamper);
+    
+    // Set transparency
+    void setTransparency(float _transparency);
     
 private:
     
@@ -48,6 +54,9 @@ private:
     
     // Shine damper
     float shineDamper;
+    
+    // Transparency
+    bool transparency;
 };
 
 #endif

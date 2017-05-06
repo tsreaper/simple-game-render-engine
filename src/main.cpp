@@ -1,7 +1,7 @@
 #include <iostream>
 #include "render/mainRender.h"
 #include "logic/mainLogic.h"
-#include "render/renderEngine/windowManager.h"
+#include "render/engine/windowManager.h"
 
 using namespace std;
 

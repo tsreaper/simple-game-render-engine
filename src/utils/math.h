@@ -6,6 +6,9 @@ class Math
 {
 public:
     
+    // Normalize a vector
+    static void normalize(float* vec, int d);
+    
     // Create a 4x4 transformation matrix
     static float* createTransMatrix(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale);
     

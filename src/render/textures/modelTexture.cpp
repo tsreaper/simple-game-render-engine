@@ -7,6 +7,7 @@ ModelTexture::ModelTexture(const char* _name, GLuint id)
     textureId = id;
     reflectivity = 0;
     shineDamper = 1;
+    transparency = false;
 }
 
 // Destructor
@@ -39,6 +40,12 @@ float ModelTexture::getShineDamper() const
     return shineDamper;
 }
 
+// Get transparency
+bool ModelTexture::getTransparency() const
+{
+    return transparency;
+}
+
 // Set reflectivity
 void ModelTexture::setReflectivity(float _reflectivity)
 {
@@ -49,4 +56,10 @@ void ModelTexture::setReflectivity(float _reflectivity)
 void ModelTexture::setShineDamper(float _shineDamper)
 {
     shineDamper = _shineDamper;
+}
+
+// Set transparency
+void ModelTexture::setTransparency(float _transparency)
+{
+    transparency = _transparency;
 }

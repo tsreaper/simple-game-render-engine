@@ -1,11 +1,10 @@
 #ifndef STATIC_SHADER_H_
 #define STATIC_SHADER_H_
 
-#include "../../glew.h"
-#include "shaderProgram.h"
+#include "basicShader.h"
 
 // Shader for static model
-class StaticShader : public ShaderProgram
+class StaticShader : public BasicShader
 {
 public:
     
@@ -18,57 +17,21 @@ public:
     // Fragment shader file name
     static const char* FRAGMENT_FILE;
     
-    // Load transformation matrix into shader program
-    void loadTransMatrix(const float* matrix);
-    
-    // Load camera matrix into shader program
-    void loadCameraMatrix(const float* matrix);
-    
-    // Load projection matrix into shader program
-    void loadProjMatrix(const float* matrix);
-    
-    // Load light position into shader program
-    void loadLightPos(float x, float y, float z);
-    
-    // Load light color into shader program
-    void loadLightCol(float r, float g, float b);
-    
-    // Load texture reflectivity into shader program
-    void loadReflectivity(float reflectivity);
-
-    // Load texture shine damper into shader program
-    void loadShineDamper(float shineDamper);
+    // Load texture property into shader program
+    void loadTexture(float reflectivity, float shineDamper);
     
 protected:
     
     // Get all uniform locations
-    void getAllUniformLocs() override;
-    
-    // Bind VAO attributes
-    void bindAttributes() override;
+    void getAllUniformLocs();
     
 private:
     
-    // Location of transformation matrix in shader program
-    int transMatrixLoc;
-    
-    // Location of camera matrix in the shader program
-    int cameraMatrixLoc;
-    
-    // Location of projection matrix in shader program
-    int projMatrixLoc;
-    
-    // Location of light position in shader program
-    int lightPosLoc;
-    
-    // Location of light color in shader program
-    int lightColLoc;
-    
     // Location of texture reflectivity in shader program
-    float reflectivityLoc;
+    int reflectivityLoc;
     
     // Location of shine damper in shader program
-    float shineDamperLoc;
+    int shineDamperLoc;
 };
 
 #endif

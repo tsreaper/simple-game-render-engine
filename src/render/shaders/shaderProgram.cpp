@@ -55,6 +55,12 @@ void ShaderProgram::loadFloat(int loc, float value)
     glUniform1f(loc, value);
 }
 
+// Load int into uniform by location
+void ShaderProgram::loadInt(int loc, int value)
+{
+    glUniform1i(loc, value);
+}
+
 // Load boolean into uniform by location
 void ShaderProgram::loadBool(int loc, bool value)
 {

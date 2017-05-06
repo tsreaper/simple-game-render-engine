@@ -91,6 +91,11 @@ RawModel* ObjLoader::loadObj(const char* objFile)
     RawModel *raw = Loader::loadRawModel(objFile, verticies, mp.size()*3, texCoords, mp.size()*2, norms, mp.size()*3, indicies, f.size()*3);
     
     // Clean up
+    delete verticies;
+    delete texCoords;
+    delete norms;
+    delete indicies;
+    
     for (int i = 0; i < v.size(); i++)
         delete[] v[i];
     for (int i = 0; i < vt.size(); i++)
