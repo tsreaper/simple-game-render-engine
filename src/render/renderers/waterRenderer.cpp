@@ -17,11 +17,15 @@ void WaterRenderer::render(const Water* water, WaterShader* shader)
 }
 
 // Bind water quad model
-void WaterRenderer::bindWater(const Water* water, WaterShader* shader)
+void WaterRenderer::bindWater(const Water* water, const WaterFbo* fbo, WaterShader* shader)
 {
     // Bind raw model
     glBindVertexArray(water->getRaw()->getVaoId());
     glEnableVertexAttribArray(0);
+    
+    // Bind texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, fbo->getReflectionTex());
 }
 
 // Unbind water quad model

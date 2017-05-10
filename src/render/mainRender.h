@@ -13,6 +13,7 @@
 #include "entities/skybox.h"
 #include "terrains/terrain.h"
 #include "terrains/water.h"
+#include "textures/waterFbo.h"
 
 using namespace std;
 
@@ -65,6 +66,7 @@ private:
     static unordered_map<string, unordered_set<Entity*>> entityMap;
     static unordered_set<Terrain*> terrainSet;
     static unordered_set<Water*> waterSet;
+    static WaterFbo* waterFbo;
     static Skybox* skybox;
     
     // Shader program
@@ -75,6 +77,9 @@ private:
 
     // Light in the 3D world
     static Light* light;
+    
+    // Render everything except water
+    static void renderWithoutWater(const float* cameraMatrix);
 };
 
 #endif
