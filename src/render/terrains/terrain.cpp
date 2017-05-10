@@ -10,7 +10,7 @@
 using namespace std;
 
 // Size of a terrain
-const int Terrain::SIZE = 1024;
+const float Terrain::SIZE = 1024;
 
 // Constructor
 Terrain::Terrain(int _gridX, int _gridZ, TexturePack* _pack, float minHeight, float maxHeight, const char* heightMapName)
@@ -33,13 +33,13 @@ Terrain::~Terrain()
 }
 
 // Get X coordinate
-int Terrain::getX() const
+float Terrain::getX() const
 {
     return x;
 }
 
 // Get Z coordinate
-int Terrain::getZ() const
+float Terrain::getZ() const
 {
     return z;
 }

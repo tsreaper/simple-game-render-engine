@@ -10,7 +10,7 @@ class Terrain
 public:
     
     // Size of a terrain
-    static const int SIZE;
+    static const float SIZE;
     
     // Constructor
     Terrain(int _gridX, int _gridZ, TexturePack* _pack, float minHeight, float maxHeight, const char* heightMapName);
@@ -19,10 +19,10 @@ public:
     ~Terrain();
     
     // Get X coordinate
-    int getX() const;
+    float getX() const;
     
     // Get Z coordinate
-    int getZ() const;
+    float getZ() const;
     
     // Get grid-X coordinate
     int getGridX() const;
@@ -37,7 +37,7 @@ public:
     TexturePack* getTexturePack() const;
     
     // Get the height of a position
-    float getHeight(float _x, float _z, bool isWorldCoord) const;
+    float getHeight(float _x, float _z, bool isWorldCoord = true) const;
     
     // Get the normal vertex of a position
     void getNorm(float _x, float _z, float* _norm) const;

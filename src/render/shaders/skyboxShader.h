@@ -1,16 +1,22 @@
-#ifndef BASIC_SHADER_H_
-#define BASIC_SHADER_H_
+#ifndef SKYBOX_SHADER_H_
+#define SKYBOX_SHADER_H_
 
 #include "../../glew.h"
 #include "shaderProgram.h"
 
-// Basic shader for models
-class BasicShader : public ShaderProgram
+// Shader for skybox
+class SkyboxShader : public ShaderProgram
 {
 public:
     
+    // Vertex shader file name
+    static const char* VERTEX_FILE;
+
+    // Fragment shader file name
+    static const char* FRAGMENT_FILE;
+    
     // Constructor
-    BasicShader(const char* vertexFile, const char* fragmentFile);
+    SkyboxShader();
     
     // Load transformation matrix into shader program
     void loadTransMatrix(const float* matrix);
@@ -21,21 +27,16 @@ public:
     // Load projection matrix into shader program
     void loadProjMatrix(const float* matrix);
     
-    // Load light into shader program
-    void loadLight(float x, float y, float z, float r, float g, float b);
-    
     // Load sky color into shader program
     void loadSkyCol(float r, float g, float b);
     
-protected:
+private:
     
     // Get all uniform locations
-    void getAllUniformLocs() override;
+    void getAllUniformLocs();
     
     // Bind VAO attributes
-    void bindAttributes() override;
-
-private:
+    void bindAttributes();
     
     // Location of transformation matrix in shader program
     int transMatrixLoc;
@@ -45,12 +46,6 @@ private:
     
     // Location of projection matrix in shader program
     int projMatrixLoc;
-    
-    // Location of light position in shader program
-    int lightPosLoc;
-    
-    // Location of light color in shader program
-    int lightColLoc;
     
     // Location of sky color in shader program
     int skyColLoc;

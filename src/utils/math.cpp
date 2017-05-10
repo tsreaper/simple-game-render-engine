@@ -13,7 +13,7 @@ void Math::normalize(float* vec, int d)
 }
 
 // Create a 4x4 transformation matrix
-float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale)
+float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale, bool isCamera)
 {
     // Initialize a 4x4 identity matrix;
     float* res = new float[4*4];
@@ -31,6 +31,46 @@ float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY,
     leftMulMatrix4(res, scalingMatrix);
     delete[] scalingMatrix;
     
+    if (isCamera)
+    {
+        calcTranslationMatrix(res, tX, tY, tZ);
+        calcRotationMatrix(res, rX, rY, rZ);
+    }
+    else
+    {
+        calcRotationMatrix(res, rX, rY, rZ);
+        calcTranslationMatrix(res, tX, tY, tZ);
+    }
+    
+    return res;
+}
+
+// Create a 4x4 projection matrix
+float* Math::createProjMatrix(float ratio, float fov, float zNear, float zFar)
+{
+    return new float[4*4] {
+        1/(float)tan(fov/2)/ratio, 0, 0, 0,
+        0, 1/(float)tan(fov/2), 0, 0,
+        0, 0, -(zFar+zNear)/(zFar-zNear), -1,
+        0, 0, -2*zFar*zNear/(zFar-zNear), 0
+    };
+}
+
+// Calculate A = B*A, where A and B are both 4x4 matrices
+void Math::leftMulMatrix4(float* A, float* B)
+{
+    float res[16] = {0};
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            for (int k = 0; k < 4; k++)
+                res[j*4+i] += B[k*4+i] * A[j*4+k];
+    for (int i = 0; i < 16; i++)
+        A[i] = res[i];
+}
+
+// Calculate rotation matrix
+void Math::calcRotationMatrix(float* res, float rX, float rY, float rZ)
+{
     // Rotate Z
     float* rotateZMatrix = new float[4*4] {
         (float)cos(rZ), (float)-sin(rZ), 0, 0,
@@ -60,7 +100,11 @@ float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY,
     };
     leftMulMatrix4(res, rotateXMatrix);
     delete[] rotateXMatrix;
-    
+}
+
+// Calculate translation matrix
+void Math::calcTranslationMatrix(float* res, float tX, float tY, float tZ)
+{
     // Translation
     float* translationMatrix = new float[4*4] {
         1, 0, 0, 0,
@@ -70,29 +114,4 @@ float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY,
     };
     leftMulMatrix4(res, translationMatrix);
     delete[] translationMatrix;
-    
-    return res;
-}
-
-// Create a 4x4 projection matrix
-float* Math::createProjMatrix(float ratio, float fov, float zNear, float zFar)
-{
-    return new float[4*4] {
-        1/(float)tan(fov/2)/ratio, 0, 0, 0,
-        0, 1/(float)tan(fov/2), 0, 0,
-        0, 0, -(zFar+zNear)/(zFar-zNear), -1,
-        0, 0, -2*zFar*zNear/(zFar-zNear), 0
-    };
-}
-
-// Calculate A = B*A, where A and B are both 4x4 matrices
-void Math::leftMulMatrix4(float* A, float* B)
-{
-    float res[16] = {0};
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            for (int k = 0; k < 4; k++)
-                res[j*4+i] += B[k*4+i] * A[j*4+k];
-    for (int i = 0; i < 16; i++)
-        A[i] = res[i];
 }

@@ -6,9 +6,13 @@
 #include "../glew.h"
 #include "shaders/staticShader.h"
 #include "shaders/terrainShader.h"
+#include "shaders/waterShader.h"
+#include "shaders/skyboxShader.h"
 #include "entities/entity.h"
 #include "entities/light.h"
+#include "entities/skybox.h"
 #include "terrains/terrain.h"
+#include "terrains/water.h"
 
 using namespace std;
 
@@ -28,11 +32,17 @@ public:
     // Create a terrain in the 3D world
     static Terrain* createTerrain(const char* name, int gridX, int gridZ);
     
+    // Create a water terrain in the 3D world
+    static Water* createWater(int gridX, int gridZ, float y);
+    
     // Remove the entity from the 3D world
     static void destroyEntity(Entity* entity);
     
     // Remove the terrain from the 3D world
     static void destroyTerrain(Terrain* terrain);
+    
+    // Remove the water terrain from the 3D world
+    static void destroyWater(Water* water);
     
     // Load light
     static void loadLight(Light* _light);
@@ -54,10 +64,14 @@ private:
     // Objects being rendered
     static unordered_map<string, unordered_set<Entity*>> entityMap;
     static unordered_set<Terrain*> terrainSet;
+    static unordered_set<Water*> waterSet;
+    static Skybox* skybox;
     
     // Shader program
     static StaticShader* staticShader;
     static TerrainShader* terrainShader;
+    static WaterShader* waterShader;
+    static SkyboxShader* skyboxShader;
 
     // Light in the 3D world
     static Light* light;

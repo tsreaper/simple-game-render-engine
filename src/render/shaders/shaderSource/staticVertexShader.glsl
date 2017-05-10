@@ -16,8 +16,8 @@ uniform mat4 projMatrix;
 
 uniform vec3 lightPos;
 
-const float fogDensity = 0.0035;
-const float fogGradient = 5.0;
+const float fogDensity = 0.003;
+const float fogGradient = 5.5;
 
 void main(void)
 {

@@ -16,8 +16,14 @@ public:
     // Create VAO and load a raw model
     static RawModel* loadRawModel(const char* name, const float* positions, int positionSize, const float* textureCoords, int textureCoordSize, const float* norms, int normSize, const int* indicies, int indiciesSize);
     
+    // Create VAO and load vertices only
+    static RawModel* loadVertices(const char* name, const float* positions, int positionSize);
+    
     // Create texture from file
     static ModelTexture* loadTexture(const char* filename);
+    
+    // Create cube map texture from file
+    static int loadCubeMapTexture(const char* filename[]);
     
 private:
     

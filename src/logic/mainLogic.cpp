@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdlib>
 #include <vector>
 #include "../render/mainRender.h"
@@ -6,21 +7,26 @@
 #include "../render/entities/light.h"
 #include "../render/entities/camera.h"
 #include "../render/terrains/terrain.h"
+#include "../render/terrains/water.h"
 #include "mainLogic.h"
 
 using namespace std;
 
 vector<Entity*> entityVec;
 Terrain* terrain;
+Water* water;
 
 // Initialize main logic
 void MainLogic::init()
 {
     // Add sun light
-    MainRender::loadLight(new Light(512, 500, 512, 1, 1, 1));
+    MainRender::loadLight(new Light(512, 3000, 512, 1, 1, 1));
     
     // Add terrain
     terrain = MainRender::createTerrain("hill", 0, 0);
+    
+    // Add water
+    water = MainRender::createWater(0, 0, 0);
     
     // Add some trees
     for (int i = 0; i < 100; i++)
@@ -30,7 +36,7 @@ void MainLogic::init()
         {
             x = 1.0 * rand() / RAND_MAX * 1024;
             z = 1.0 * rand() / RAND_MAX * 1024;
-            y = terrain->getHeight(x, z, true);
+            y = terrain->getHeight(x, z);
         }
         while (y < 0);
         
@@ -49,7 +55,7 @@ void MainLogic::init()
         {
             x = 1.0 * rand() / RAND_MAX * 1024;
             z = 1.0 * rand() / RAND_MAX * 1024;
-            y = terrain->getHeight(x, z, true);
+            y = terrain->getHeight(x, z);
         }
         while (y < 0);
         
@@ -67,18 +73,35 @@ void MainLogic::init()
 // Run main logic
 void MainLogic::run()
 {
+    // Move camera
+    float yaw = Camera::getYaw();
+    
     if (WindowManager::isKeyPressed(GLFW_KEY_W))
-        Camera::incPosition(0, 0, -0.5);
+        Camera::incPosition((float)sin(yaw), 0, (float)-cos(yaw));
     if (WindowManager::isKeyPressed(GLFW_KEY_S))
-        Camera::incPosition(0, 0, 0.5);
+        Camera::incPosition((float)-sin(yaw), 0, (float)cos(yaw));
     if (WindowManager::isKeyPressed(GLFW_KEY_A))
-        Camera::incPosition(-0.5, 0, 0);
+        Camera::incPosition((float)-cos(yaw), 0, (float)-sin(yaw));
     if (WindowManager::isKeyPressed(GLFW_KEY_D))
-        Camera::incPosition(0.5, 0, 0);
+        Camera::incPosition((float)cos(yaw), 0, (float)sin(yaw));
+    if (WindowManager::isKeyPressed(GLFW_KEY_I))
+        Camera::incRotation(0.02, 0, 0);
+    if (WindowManager::isKeyPressed(GLFW_KEY_K))
+        Camera::incRotation(-0.02, 0, 0);
+    if (WindowManager::isKeyPressed(GLFW_KEY_J))
+        Camera::incRotation(0, -0.02, 0);
+    if (WindowManager::isKeyPressed(GLFW_KEY_L))
+        Camera::incRotation(0, 0.02, 0);
     if (WindowManager::isKeyPressed(GLFW_KEY_SPACE))
         Camera::incPosition(0, 0.5, 0);
     if (WindowManager::isKeyPressed(GLFW_KEY_LEFT_ALT))
         Camera::incPosition(0, -0.5, 0);
+    
+    float x = Camera::getX(), y = Camera::getY(), z = Camera::getZ();
+    x = min(max(x, 0.0f), 1024.0f);
+    z = min(max(z, 0.0f), 1024.0f);
+    y = max(y, terrain->getHeight(x, z) + 5);
+    Camera::setX(x); Camera::setY(y); Camera::setZ(z);
 }
 
 // Clean up
@@ -90,4 +113,7 @@ void MainLogic::cleanUp()
     
     // Delete terrain
     MainRender::destroyTerrain(terrain);
+    
+    // Delete water
+    MainRender::destroyWater(water);
 }

@@ -1,19 +1,20 @@
 #include "rawModel.h"
 
 // Constructor
-RawModel::RawModel(const char* _name, GLuint _vaoId, GLuint _vertexCount)
+RawModel::RawModel(const char* _name, GLuint _vaoId, GLuint _vertexCount, int _vboCount)
 {
     name = _name;
     vaoId = _vaoId;
     vertexCount = _vertexCount;
-    vboIds = new GLuint[4];
+    vboCount = _vboCount;
+    vboIds = new GLuint[vboCount];
 }
 
 // Destructor
 RawModel::~RawModel()
 {
     glDeleteVertexArrays(1, &vaoId);
-    glDeleteBuffers(4, vboIds);
+    glDeleteBuffers(vboCount, vboIds);
     delete[] vboIds;
 }
 

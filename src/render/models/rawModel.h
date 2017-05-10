@@ -12,7 +12,7 @@ class RawModel
 public:
     
     // Constructor
-    RawModel(const char* _name, GLuint _vaoId, GLuint _vertexCount);
+    RawModel(const char* _name, GLuint _vaoId, GLuint _vertexCount, int _vboCount = 4);
     
     // Destructor
     ~RawModel();
@@ -42,6 +42,9 @@ private:
     
     // VBO ids
     GLuint* vboIds;
+    
+    // Number of VBOs
+    int vboCount;
 };
 
 #endif
