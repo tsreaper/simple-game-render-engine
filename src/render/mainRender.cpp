@@ -79,32 +79,8 @@ void MainRender::render()
         Camera::getPitch(), Camera::getYaw(), Camera::getRoll(), 1, true
     );
     
-    // Render water refraction effect
-    waterFbo->bindRefractionFbo();
-    renderWithoutWater(cameraMatrix, 0, true);
-    waterFbo->unbindFbo();
-    
-    // Render water reflection effect
-    waterFbo->bindReflectionFbo();
-    renderWithoutWater(reflectionCameraMatrix, 0, false);
-    waterFbo->unbindFbo();
-    
-    // Render scene
     renderWithoutWater(cameraMatrix);
-    
-    // Prepare water shader
-    waterShader->start();
-    waterShader->loadCameraMatrix(cameraMatrix);
-    waterShader->loadSkyCol(0.61, 0.76, 0.88);
-    
-    // Render waters
-    if (!waterSet.empty())
-    {
-        WaterRenderer::bindWater(*(waterSet.begin()), waterFbo, waterShader);
-        for (auto water : waterSet)
-            WaterRenderer::render(water, waterShader);
-        WaterRenderer::unbindWater();
-    }
+    renderWater(cameraMatrix, reflectionCameraMatrix);
     
     WindowManager::updateDisplay();
     delete[] cameraMatrix;
@@ -191,6 +167,13 @@ void MainRender::loadLight(Light* _light)
         light->getR(), light->getG(), light->getB()
     );
     terrainShader->stop();
+    
+    waterShader->start();
+    waterShader->loadLight(
+        light->getX(), light->getY(), light->getZ(),
+        light->getR(), light->getG(), light->getB()
+    );
+    waterShader->stop();
 }
 
 // Clean up
@@ -262,6 +245,30 @@ void MainRender::renderWithoutWater(const float* cameraMatrix, float clipHeight,
     SkyboxRenderer::render(skybox, skyboxShader);
     skyboxShader->stop();
     skybox->rotate();
+}
+
+// Render water only
+void MainRender::renderWater(const float* cameraMatrix, const float* reflectionCameraMatrix)
+{
+    // Render water refraction effect
+    waterFbo->bindRefractionFbo();
+    renderWithoutWater(cameraMatrix, 0, true);
+    waterFbo->unbindFbo();
+    
+    // Render water reflection effect
+    waterFbo->bindReflectionFbo();
+    renderWithoutWater(reflectionCameraMatrix, 0, false);
+    waterFbo->unbindFbo();
+    
+    // Render water
+    prepareShader(waterShader, cameraMatrix);
+    if (!waterSet.empty())
+    {
+        WaterRenderer::bindWater(*(waterSet.begin()), waterFbo, waterShader);
+        for (auto water : waterSet)
+            WaterRenderer::render(water, waterShader);
+        WaterRenderer::unbindWater();
+    }
 }
 
 // Prepare shader for rendering

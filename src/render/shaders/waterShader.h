@@ -36,6 +36,9 @@ private:
     // Location of DUDV map in the shader program
     int dudvMapLoc;
     
+    // Location of normal mao in the shader program
+    int normMapLoc;
+    
     // Location of DUDV map moving factor in the shader program
     float moveFacLoc;
     

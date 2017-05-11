@@ -18,6 +18,9 @@ uniform vec3 lightCol;
 
 uniform vec3 skyCol;
 
+const float FOG_DENSITY = 0.003;
+const float FOG_GRADIENT = 5.5;
+
 void main(void)
 {
     vec4 blendMapCol = texture(blendMap, passCoord);
@@ -34,7 +37,10 @@ void main(void)
     
     float brightness = max(dot(unitNorm, unitLight), 0.2);
     vec3 diffuse = brightness * lightCol;
-    
     pixel = vec4(diffuse, 1.0) * (kCol + rCol + gCol + bCol);
+    
+    float dis = length(toCameraVec.xyz);
+    float visibility = exp(-pow(dis*FOG_DENSITY, FOG_GRADIENT));
+    visibility = clamp(visibility, 0.0, 1.0);
     pixel = mix(vec4(skyCol, 1.0), pixel, visibility);
 }

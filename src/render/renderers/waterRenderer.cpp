@@ -42,6 +42,8 @@ void WaterRenderer::bindWater(const Water* water, const WaterFbo* fbo, WaterShad
     glBindTexture(GL_TEXTURE_2D, fbo->getRefractionTex());
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, water->getDudv()->getId());
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, water->getNorm()->getId());
 }
 
 // Unbind water quad model

@@ -82,8 +82,11 @@ private:
     // Render everything except water
     static void renderWithoutWater(const float* cameraMatrix, float clipHeight = -1e10, bool clipPositive = false);
     
+    // Render water only
+    static void renderWater(const float* cameraMatrix, const float* reflectionCameraMatrix);
+    
     // Prepare shader for rendering
-    static void prepareShader(BasicShader* shader, const float* cameraMatrix, float clipHeight, bool clipPositive);
+    static void prepareShader(BasicShader* shader, const float* cameraMatrix, float clipHeight = -1e10, bool clipPositive = false);
 };
 
 #endif

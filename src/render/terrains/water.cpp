@@ -7,6 +7,9 @@ const float Water::SIZE = 1024;
 // DUDV map file
 const char* Water::DUDV_FILE = "terrains/waterDUDV.png";
 
+// Normal map file
+const char* Water::NORM_FILE = "terrains/waterNorm.png";
+
 // Constructor
 Water::Water(int _gridX, int _gridZ, float _y)
 {
@@ -24,6 +27,7 @@ Water::Water(int _gridX, int _gridZ, float _y)
     
     raw = Loader::loadVertices("water", vertices, 12);
     dudv = Loader::loadTexture(DUDV_FILE);
+    norm = Loader::loadTexture(NORM_FILE);
 }
 
 // Destructor
@@ -73,4 +77,10 @@ RawModel* Water::getRaw() const
 ModelTexture* Water::getDudv() const
 {
     return dudv;
+}
+
+// Get normal map texture
+ModelTexture* Water::getNorm() const
+{
+    return norm;
 }

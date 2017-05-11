@@ -8,7 +8,6 @@ out vec2 passCoord;
 out vec3 vertexNorm;
 out vec3 toLightVec;
 out vec3 toCameraVec;
-out float visibility;
 
 uniform mat4 transMatrix;
 uniform mat4 cameraMatrix;
@@ -18,9 +17,6 @@ uniform vec3 lightPos;
 
 uniform float clipHeight;
 uniform float clipPositive;
-
-const float fogDensity = 0.003;
-const float fogGradient = 5.5;
 
 void main(void)
 {
@@ -43,8 +39,4 @@ void main(void)
     vertexNorm = (transMatrix * vec4(norm, 0.0)).xyz;
     toLightVec = lightPos - worldCoord.xyz;
     toCameraVec = (inverse(cameraMatrix) * vec4(0.0, 0.0, 0.0, 1.0) - worldCoord).xyz;
-    
-    float dis = length(posToCam.xyz);
-    visibility = exp(-pow(dis*fogDensity, fogGradient));
-    visibility = clamp(visibility, 0.0, 1.0);
 }

@@ -15,6 +15,9 @@ public:
     // DUDV map file
     static const char* DUDV_FILE;
     
+    // Normal map file
+    static const char* NORM_FILE;
+    
     // Constructor
     Water(int _gridX, int _gridZ, float _y);
     
@@ -42,6 +45,9 @@ public:
     // Get dudv map texture
     ModelTexture* getDudv() const;
     
+    // Get normal map texture
+    ModelTexture* getNorm() const;
+    
 private:
     
     // Position of the water
@@ -55,6 +61,9 @@ private:
     
     // DUDV map
     ModelTexture* dudv;
+    
+    // Normal map
+    ModelTexture* norm;
 };
 
 #endif

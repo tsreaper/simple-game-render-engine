@@ -7,8 +7,8 @@ out vec4 pixel;
 uniform samplerCube textureSampler;
 uniform vec3 skyCol;
 
-const float lower = 0.0;
-const float upper = 0.15;
+const float lower = -0.3;
+const float upper = 0.3;
 
 void main(void)
 {
