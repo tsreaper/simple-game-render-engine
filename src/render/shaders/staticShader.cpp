@@ -7,7 +7,7 @@ const char* StaticShader::VERTEX_FILE = "src/render/shaders/shaderSource/staticV
 const char* StaticShader::FRAGMENT_FILE = "src/render/shaders/shaderSource/staticFragmentShader.glsl";
 
 // Constructor
-StaticShader::StaticShader(): BasicShader(VERTEX_FILE, FRAGMENT_FILE)
+StaticShader::StaticShader(): BasicShader(VERTEX_FILE, FRAGMENT_FILE, SHADER_LOAD_LIGHT | SHADER_LOAD_CLIP | SHADER_BIND_TEX_NORM)
 {
     getAllUniformLocs();
 }

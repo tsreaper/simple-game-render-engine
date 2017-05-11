@@ -9,8 +9,13 @@ class BasicShader : public ShaderProgram
 {
 public:
     
+    // Shader functions
+    static const int SHADER_LOAD_LIGHT;
+    static const int SHADER_LOAD_CLIP;
+    static const int SHADER_BIND_TEX_NORM;
+    
     // Constructor
-    BasicShader(const char* vertexFile, const char* fragmentFile);
+    BasicShader(const char* vertexFile, const char* fragmentFile, int _mode);
     
     // Load transformation matrix into shader program
     void loadTransMatrix(const float* matrix);
@@ -27,6 +32,9 @@ public:
     // Load sky color into shader program
     void loadSkyCol(float r, float g, float b);
     
+    // Load clipping plane info into shader program
+    void loadClipping(float height, bool clipPositive);
+    
 protected:
     
     // Get all uniform locations
@@ -36,6 +44,9 @@ protected:
     void bindAttributes() override;
 
 private:
+    
+    // Shader mode
+    int mode;
     
     // Location of transformation matrix in shader program
     int transMatrixLoc;
@@ -54,6 +65,12 @@ private:
     
     // Location of sky color in shader program
     int skyColLoc;
+    
+    // Location of clipping plane height in shader program
+    int clipHeightLoc;
+    
+    // Location of clipPositive in shader program
+    int clipPositiveLoc;
 };
 
 #endif

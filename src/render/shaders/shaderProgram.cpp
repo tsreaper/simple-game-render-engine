@@ -64,7 +64,7 @@ void ShaderProgram::loadInt(int loc, int value)
 // Load boolean into uniform by location
 void ShaderProgram::loadBool(int loc, bool value)
 {
-    glUniform1f(loc, (float)value);
+    glUniform1f(loc, value ? 1.0 : 0.0);
 }
 
 // Load 3D vector into uniform by location

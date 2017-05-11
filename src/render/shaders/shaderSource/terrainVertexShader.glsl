@@ -16,12 +16,25 @@ uniform mat4 projMatrix;
 
 uniform vec3 lightPos;
 
+uniform float clipHeight;
+uniform float clipPositive;
+
 const float fogDensity = 0.003;
 const float fogGradient = 5.5;
 
 void main(void)
 {
     vec4 worldCoord = transMatrix * vec4(position, 1.0);
+    
+    if (clipPositive > 0.5)
+    {
+        gl_ClipDistance[0] = clipHeight - worldCoord.y;
+    }
+    else
+    {
+        gl_ClipDistance[0] = worldCoord.y - clipHeight;
+    }
+    
     vec4 posToCam = cameraMatrix * worldCoord;
     
     gl_Position = projMatrix * posToCam;

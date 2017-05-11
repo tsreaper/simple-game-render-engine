@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "../glew.h"
+#include "shaders/basicShader.h"
 #include "shaders/staticShader.h"
 #include "shaders/terrainShader.h"
 #include "shaders/waterShader.h"
@@ -79,7 +80,10 @@ private:
     static Light* light;
     
     // Render everything except water
-    static void renderWithoutWater(const float* cameraMatrix);
+    static void renderWithoutWater(const float* cameraMatrix, float clipHeight = -1e10, bool clipPositive = false);
+    
+    // Prepare shader for rendering
+    static void prepareShader(BasicShader* shader, const float* cameraMatrix, float clipHeight, bool clipPositive);
 };
 
 #endif

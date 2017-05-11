@@ -2,13 +2,18 @@
 #define WATER_H_
 
 #include "../models/rawModel.h"
+#include "../textures/modelTexture.h"
 
 // Water
 class Water
 {
 public:
     
+    // Size of a water terrain
     static const float SIZE;
+    
+    // DUDV map file
+    static const char* DUDV_FILE;
     
     // Constructor
     Water(int _gridX, int _gridZ, float _y);
@@ -34,6 +39,9 @@ public:
     // Get raw model
     RawModel* getRaw() const;
     
+    // Get dudv map texture
+    ModelTexture* getDudv() const;
+    
 private:
     
     // Position of the water
@@ -44,6 +52,9 @@ private:
     
     // Raw model (a quad) of the water
     RawModel* raw;
+    
+    // DUDV map
+    ModelTexture* dudv;
 };
 
 #endif

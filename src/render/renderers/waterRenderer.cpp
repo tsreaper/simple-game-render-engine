@@ -1,6 +1,12 @@
 #include "../../utils/math.h"
 #include "waterRenderer.h"
 
+// DUDV map moving factor changing speed
+const float WaterRenderer::DUDV_MOVE_SPEED = 0.0005;
+
+// DUDV map moving factor
+float WaterRenderer::moveFac = 0;
+
 // Render a water terrain
 void WaterRenderer::render(const Water* water, WaterShader* shader)
 {
@@ -9,6 +15,12 @@ void WaterRenderer::render(const Water* water, WaterShader* shader)
         water->getX(), water->getY(), water->getZ(), 0, 0, 0, 1
     );
     shader->loadTransMatrix(transMatrix);
+    
+    // Change and load the DUDV map moving factor
+    moveFac += DUDV_MOVE_SPEED;
+    if (moveFac >= 1)
+        moveFac = 0;
+    shader->loadMoveFac(moveFac);
     
     // Draw water quad
     glDrawArrays(GL_TRIANGLE_STRIP, 0, water->getRaw()->getVertexCount());
@@ -26,6 +38,10 @@ void WaterRenderer::bindWater(const Water* water, const WaterFbo* fbo, WaterShad
     // Bind texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, fbo->getReflectionTex());
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, fbo->getRefractionTex());
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, water->getDudv()->getId());
 }
 
 // Unbind water quad model

@@ -74,10 +74,19 @@ void MainRender::render()
         -Camera::getX(), -Camera::getY(), -Camera::getZ(),
         -Camera::getPitch(), Camera::getYaw(), Camera::getRoll(), 1, true
     );
+    float* reflectionCameraMatrix = Math::createTransMatrix(
+        -Camera::getX(), Camera::getY(), -Camera::getZ(),
+        Camera::getPitch(), Camera::getYaw(), Camera::getRoll(), 1, true
+    );
     
-    // Render water effect
+    // Render water refraction effect
+    waterFbo->bindRefractionFbo();
+    renderWithoutWater(cameraMatrix, 0, true);
+    waterFbo->unbindFbo();
+    
+    // Render water reflection effect
     waterFbo->bindReflectionFbo();
-    renderWithoutWater(cameraMatrix);
+    renderWithoutWater(reflectionCameraMatrix, 0, false);
     waterFbo->unbindFbo();
     
     // Render scene
@@ -99,6 +108,7 @@ void MainRender::render()
     
     WindowManager::updateDisplay();
     delete[] cameraMatrix;
+    delete[] reflectionCameraMatrix;
 }
 
 // Create an entity in the 3D world
@@ -220,18 +230,14 @@ void MainRender::cleanUp()
 }
 
 // Render everything except water
-void MainRender::renderWithoutWater(const float* cameraMatrix)
+void MainRender::renderWithoutWater(const float* cameraMatrix, float clipHeight, bool clipPositive)
 {
     // Prepare to render
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.61, 0.76, 0.88, 1);
     
-    // Prepare static shader
-    staticShader->start();
-    staticShader->loadCameraMatrix(cameraMatrix);
-    staticShader->loadSkyCol(0.61, 0.76, 0.88);
-    
     // Render entities
+    prepareShader(staticShader, cameraMatrix, clipHeight, clipPositive);
     for (auto entitySet : entityMap)
     {
         EntityRenderer::bindTexturedModel((*(entitySet.second.begin()))->getModel(), staticShader);
@@ -241,12 +247,8 @@ void MainRender::renderWithoutWater(const float* cameraMatrix)
     }
     staticShader->stop();
     
-    // Prepare terrain shader
-    terrainShader->start();
-    terrainShader->loadCameraMatrix(cameraMatrix);
-    terrainShader->loadSkyCol(0.61, 0.76, 0.88);
-    
     // Render terrains
+    prepareShader(terrainShader, cameraMatrix, clipHeight, clipPositive);
     for (auto terrain : terrainSet)
     {
         TerrainRenderer::bindTerrain(terrain, terrainShader);
@@ -255,13 +257,18 @@ void MainRender::renderWithoutWater(const float* cameraMatrix)
     }
     terrainShader->stop();
     
-    // Prepare skybox shader
-    skyboxShader->start();
-    skyboxShader->loadCameraMatrix(cameraMatrix);
-    skyboxShader->loadSkyCol(0.61, 0.76, 0.88);
-    
     // Render skybox
+    prepareShader(skyboxShader, cameraMatrix, clipHeight, clipPositive);
     SkyboxRenderer::render(skybox, skyboxShader);
     skyboxShader->stop();
     skybox->rotate();
+}
+
+// Prepare shader for rendering
+void MainRender::prepareShader(BasicShader* shader, const float* cameraMatrix, float clipHeight, bool clipPositive)
+{
+    shader->start();
+    shader->loadCameraMatrix(cameraMatrix);
+    shader->loadSkyCol(0.61, 0.76, 0.88);
+    shader->loadClipping(clipHeight, clipPositive);
 }

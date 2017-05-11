@@ -2,7 +2,9 @@
 
 in vec3 position;
 
-out vec2 passCoord;
+out vec4 passCoord;
+out vec2 dudvCoord;
+out vec3 toCameraVec;
 
 uniform mat4 transMatrix;
 uniform mat4 cameraMatrix;
@@ -17,7 +19,7 @@ void main(void)
     vec4 worldCoord = transMatrix * vec4(position, 1.0);
     vec4 posToCam = cameraMatrix * worldCoord;
     
-    gl_Position = projMatrix * posToCam;
-    
-    passCoord = vec2(-position.x/SIZE, -position.z/SIZE);
+    gl_Position = passCoord = projMatrix * posToCam;
+    dudvCoord = position.xz/SIZE;
+    toCameraVec = (inverse(cameraMatrix) * vec4(0.0, 0.0, 0.0, 1.0) - worldCoord).xyz;
 }

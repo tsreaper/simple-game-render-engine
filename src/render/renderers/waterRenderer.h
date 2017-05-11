@@ -11,6 +11,9 @@ class WaterRenderer
 {
 public:
     
+    // DUDV map moving factor changing speed
+    static const float DUDV_MOVE_SPEED;
+    
     // Render a water terrain
     static void render(const Water* water, WaterShader* shader);
     
@@ -19,6 +22,11 @@ public:
     
     // Unbind water quad model
     static void unbindWater();
+    
+private:
+    
+    // DUDV map moving factor
+    static float moveFac;
 };
 
 #endif

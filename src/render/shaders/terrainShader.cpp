@@ -7,7 +7,7 @@ const char* TerrainShader::VERTEX_FILE = "src/render/shaders/shaderSource/terrai
 const char* TerrainShader::FRAGMENT_FILE = "src/render/shaders/shaderSource/terrainFragmentShader.glsl";
 
 // Constructor
-TerrainShader::TerrainShader(): BasicShader(VERTEX_FILE, FRAGMENT_FILE)
+TerrainShader::TerrainShader(): BasicShader(VERTEX_FILE, FRAGMENT_FILE, SHADER_LOAD_LIGHT | SHADER_LOAD_CLIP | SHADER_BIND_TEX_NORM)
 {
     getAllUniformLocs();
     

@@ -5,7 +5,7 @@
 const float Skybox::SIZE = 500;
 
 // Rotation speed of the skybox
-const float Skybox::ROTATE_SPEED = 0.0005;
+const float Skybox::ROTATE_SPEED = 0.0001;
 
 // Constructor
 Skybox::Skybox()

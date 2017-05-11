@@ -4,6 +4,9 @@
 // Size of a water terrain
 const float Water::SIZE = 1024;
 
+// DUDV map file
+const char* Water::DUDV_FILE = "terrains/waterDUDV.png";
+
 // Constructor
 Water::Water(int _gridX, int _gridZ, float _y)
 {
@@ -20,12 +23,14 @@ Water::Water(int _gridX, int _gridZ, float _y)
     };
     
     raw = Loader::loadVertices("water", vertices, 12);
+    dudv = Loader::loadTexture(DUDV_FILE);
 }
 
 // Destructor
 Water::~Water()
 {
     delete raw;
+    delete dudv;
 }
 
 // Get X coordinate
@@ -62,4 +67,10 @@ int Water::getGridZ() const
 RawModel* Water::getRaw() const
 {
     return raw;
+}
+
+// Get dudv map texture
+ModelTexture* Water::getDudv() const
+{
+    return dudv;
 }

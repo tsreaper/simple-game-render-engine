@@ -70,6 +70,7 @@ void WindowManager::createDisplay()
 	}
     
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CLIP_DISTANCE0);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 }
