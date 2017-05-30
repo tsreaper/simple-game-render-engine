@@ -18,6 +18,9 @@ uniform vec3 lightPos;
 uniform float clipHeight;
 uniform float clipPositive;
 
+uniform int atlasRows;
+uniform int atlasPos;
+
 void main(void)
 {
     vec4 worldCoord = transMatrix * vec4(position, 1.0);
@@ -35,7 +38,7 @@ void main(void)
 
     gl_Position = projMatrix * posToCam;
 
-    passCoord = textureCoord;
+    passCoord = textureCoord/atlasRows + vec2(1.0*(atlasPos%atlasRows)/atlasRows, 1.0*(atlasPos/atlasRows)/atlasRows);
     vertexNorm = (transMatrix * vec4(norm, 0.0)).xyz;
     toLightVec = lightPos - worldCoord.xyz;
     toCameraVec = (inverse(cameraMatrix) * vec4(0.0, 0.0, 0.0, 1.0) - worldCoord).xyz;

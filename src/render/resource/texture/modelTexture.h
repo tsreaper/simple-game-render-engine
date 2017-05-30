@@ -12,7 +12,7 @@ class ModelTexture
 public:
 
     // Constructor
-    ModelTexture(const char* _name, GLuint id, float _reflectivity = 0, float _shineDamper = 1, bool _transparency = false);
+    ModelTexture(const char* _name, GLuint id, float _reflectivity = 0, float _shineDamper = 1, bool _transparency = false, int _atlasRows = 1);
 
     // Destructor
     ~ModelTexture();
@@ -31,6 +31,9 @@ public:
 
     // Get transparency
     bool getTransparency() const;
+
+    // Get atlas rows
+    int getAtlasRows() const;
 
     // Set reflectivity
     void setReflectivity(float _reflectivity);
@@ -57,6 +60,9 @@ private:
 
     // Transparency
     bool transparency;
+
+    // Rows of atlas
+    int atlasRows;
 };
 
 #endif

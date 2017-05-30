@@ -1,6 +1,8 @@
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <fstream>
+
 #include "shaderProgram.h"
 
 using namespace std;
@@ -88,7 +90,7 @@ GLuint ShaderProgram::loadShader(const char* filename, int type)
     if (!file.is_open())
     {
         cerr << "ERROR: [ShaderProgram::loadShader] Cannot load shader source " + string(filename) + "!" << endl;
-        return -1;
+        exit(-1);
     }
 
     string shaderSource = "";
@@ -117,7 +119,7 @@ GLuint ShaderProgram::loadShader(const char* filename, int type)
 
         delete[] shaderInfo;
         glDeleteShader(shaderId);
-        return -1;
+        exit(-1);
     }
 
     return shaderId;

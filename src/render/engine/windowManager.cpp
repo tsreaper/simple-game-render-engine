@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <iostream>
+#include <string>
 
 #include "../../utils/input/keyboard.h"
 #include "windowManager.h"
@@ -17,6 +18,10 @@ const char* WindowManager::WINDOW_TITLE = "OpenGL Game";
 
 // Window pointer
 GLFWwindow* WindowManager::window = NULL;
+
+// For calculating FPS
+float WindowManager::lastTime = 0;
+int WindowManager::renderedFrames = 0;
 
 // Create window
 void WindowManager::createDisplay()
@@ -87,6 +92,20 @@ void WindowManager::destroyDisplay()
 bool WindowManager::isExiting()
 {
     return glfwWindowShouldClose(window);
+}
+
+// Show FPS on the window title
+void WindowManager::updateFps()
+{
+    float currentTime = glfwGetTime();
+    renderedFrames++;
+
+    if (currentTime - lastTime >= 1)
+    {
+        glfwSetWindowTitle(window, (string(WINDOW_TITLE) + " - FPS: " + to_string(renderedFrames / (currentTime-lastTime))).c_str());
+        lastTime = currentTime;
+        renderedFrames = 0;
+    }
 }
 
 // Error callback

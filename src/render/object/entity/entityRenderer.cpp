@@ -13,6 +13,9 @@ void EntityRenderer::render(const Entity* entity, EntityShader* shader)
     );
     shader->loadTransMatrix(transMatrix);
 
+    // Load atlas position
+    shader->loadAtlasPos(entity->getAtlasPos());
+
     // Draw model
     glDrawElements(GL_TRIANGLES, entity->getModel()->getVertexCount(), GL_UNSIGNED_INT, NULL);
 
@@ -32,7 +35,7 @@ void EntityRenderer::bindEntity(const Entity* entity, EntityShader* shader)
     ModelTexture* texture = entity->getTexture();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture->getId());
-    shader->loadTexture(texture->getReflectivity(), texture->getShineDamper());
+    shader->loadTexture(texture->getReflectivity(), texture->getShineDamper(), texture->getAtlasRows());
 
     // Disable face culling if the texture is transparent
     if (texture->getTransparency())

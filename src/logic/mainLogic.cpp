@@ -54,6 +54,20 @@ void MainLogic::init()
         scene->addEntity("flower", x, y, z, 0, rand(), 0, 2);
     }
 
+    // Add some ferns
+    for (int i = 0; i < 100; i++)
+    {
+        float x, y, z;
+        do
+        {
+            x = 1.0 * rand() / RAND_MAX * 1024;
+            z = 1.0 * rand() / RAND_MAX * 1024;
+            y = terrain->getHeight(x, z);
+        }
+        while (y < 0);
+        scene->addEntity("fern", x, y, z, 0, rand(), 0, 1, rand()%4);
+    }
+
     // Set initial position of camera
     Camera::incPosition(512, 10, 512);
 }
@@ -84,11 +98,15 @@ void MainLogic::run()
         Camera::incPosition(0, 0.5, 0);
     if (Keyboard::isKeyPressed(GLFW_KEY_LEFT_ALT))
         Camera::incPosition(0, -0.5, 0);
+    if (Keyboard::isKeyPressed(GLFW_KEY_KP_ADD))
+        scene->setWaterHeight(scene->getWaterHeight() + 0.3);
+    if (Keyboard::isKeyPressed(GLFW_KEY_KP_SUBTRACT))
+        scene->setWaterHeight(scene->getWaterHeight() - 0.3);
 
     float x = Camera::getX(), y = Camera::getY(), z = Camera::getZ();
     x = min(max(x, 0.0f), 1024.0f);
     z = min(max(z, 0.0f), 1024.0f);
-    y = max(y, terrain->getHeight(x, z) + 5);
+    y = max(max(y, terrain->getHeight(x, z) + 5), scene->getWaterHeight() + 1);
     Camera::setX(x); Camera::setY(y); Camera::setZ(z);
 }
 

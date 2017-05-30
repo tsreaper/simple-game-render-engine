@@ -92,7 +92,7 @@ void MainRender::render()
         -Camera::getPitch(), Camera::getYaw(), Camera::getRoll(), 1, true
     );
     float* reflectionCameraMatrix = Math::createTransMatrix(
-        -Camera::getX(), Camera::getY(), -Camera::getZ(),
+        -Camera::getX(), Camera::getY() - 2*scene->getWaterHeight(), -Camera::getZ(),
         Camera::getPitch(), Camera::getYaw(), Camera::getRoll(), 1, true
     );
 
@@ -104,6 +104,7 @@ void MainRender::render()
     scene->update();
 
     WindowManager::updateDisplay();
+    WindowManager::updateFps();
     delete[] cameraMatrix;
     delete[] reflectionCameraMatrix;
 }

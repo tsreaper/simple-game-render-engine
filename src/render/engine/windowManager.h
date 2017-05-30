@@ -30,10 +30,17 @@ public:
     // Check if window should close
     static bool isExiting();
 
+    // Show FPS on the window title
+    static void updateFps();
+
 private:
 
     // Window pointer
     static GLFWwindow* window;
+
+    // For calculating FPS
+    static float lastTime;
+    static int renderedFrames;
 
     // Error callback
     static void errorCallback(int error, const char* description);

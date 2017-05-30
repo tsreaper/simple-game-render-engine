@@ -13,10 +13,17 @@ EntityShader::EntityShader(): BasicShader(VERTEX_FILE, FRAGMENT_FILE, SHADER_LOA
 }
 
 // Load texture property into shader program
-void EntityShader::loadTexture(float reflectivity, float shineDamper)
+void EntityShader::loadTexture(float reflectivity, float shineDamper, int atlasRows)
 {
     loadFloat(reflectivityLoc, reflectivity);
     loadFloat(shineDamperLoc, shineDamper);
+    loadInt(atlasRowsLoc, atlasRows);
+}
+
+// Load atlas position into shader program
+void EntityShader::loadAtlasPos(int atlasPos)
+{
+    loadInt(atlasPosLoc, atlasPos);
 }
 
 // Get all uniform locations
@@ -24,4 +31,6 @@ void EntityShader::getAllUniformLocs()
 {
     reflectivityLoc = getUniformLoc("reflectivity");
     shineDamperLoc = getUniformLoc("shineDamper");
+    atlasRowsLoc = getUniformLoc("atlasRows");
+    atlasPosLoc = getUniformLoc("atlasPos");
 }

@@ -18,7 +18,10 @@ public:
     static const char* FRAGMENT_FILE;
 
     // Load texture property into shader program
-    void loadTexture(float reflectivity, float shineDamper);
+    void loadTexture(float reflectivity, float shineDamper, int atlasRows);
+
+    // Load atlas position into shader program
+    void loadAtlasPos(int atlasPos);
 
 protected:
 
@@ -32,6 +35,9 @@ private:
 
     // Location of shine damper in shader program
     GLuint shineDamperLoc;
+
+    // Location of atlas information
+    GLuint atlasRowsLoc, atlasPosLoc;
 };
 
 #endif

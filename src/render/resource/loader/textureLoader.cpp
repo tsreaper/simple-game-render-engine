@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cmath>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -31,7 +32,8 @@ ModelTexture* TextureLoader::loadModelTexture(const char* name)
 
     float reflectivity = 0, shineDamper = 1;
     bool transparency = false;
-    for (int i = 1; i <= 3; i++)
+    int atlasRows = 1;
+    for (int i = 1; i <= 4; i++)
     {
         string s;
         float value;
@@ -43,9 +45,16 @@ ModelTexture* TextureLoader::loadModelTexture(const char* name)
             shineDamper = value;
         else if (s == "transparency")
             transparency = (value > 0.5);
+        else if (s == "atlasRows")
+            atlasRows = round(value);
+        else
+        {
+            cerr << "ERROR: [TextureLoader::loadModelTexture] Unknown config property " + s + "!" << endl;
+            exit(-1);
+        }
     }
 
-    return new ModelTexture(name, texId, reflectivity, shineDamper, transparency);
+    return new ModelTexture(name, texId, reflectivity, shineDamper, transparency, atlasRows);
 }
 
 // Create terrain texture
