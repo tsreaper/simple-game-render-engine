@@ -1,5 +1,5 @@
-#ifndef MY_GLEW_H_
-#define MY_GLEW_H_
+#ifndef _MY_GLEW_H
+#define _MY_GLEW_H
 
 #include <GL/glew.h>
 

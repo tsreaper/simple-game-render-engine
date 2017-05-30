@@ -4,12 +4,12 @@ LIB := -lglfw3dll -lopengl32 -lglew32
 
 main: $(OBJ)
 	@echo Linking object files...
-	@g++ $(OBJ) -std=c++11 -O2 -o main $(LIB)
+	@g++ $(OBJ) -Wall -std=c++11 -O2 -o main $(LIB)
 
 $(OBJ): obj\\%.o: src\\%.cpp
 	@echo Compiling $^
 	@if not exist $(dir $@) mkdir $(dir $@)
-	@g++ -c $^ -std=c++11 -O2 -o $@ $(LIB)
+	@g++ -c $^ -Wall -std=c++11 -O2 -o $@ $(LIB)
 
 clean:
 	@echo Cleaning object files...

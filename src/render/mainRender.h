@@ -1,59 +1,44 @@
-#ifndef MAIN_RENDER_H_
-#define MAIN_RENDER_H_
+#ifndef _MAIN_RENDER_H
+#define _MAIN_RENDER_H
 
-#include <unordered_map>
-#include <unordered_set>
 #include "../glew.h"
-#include "shaders/basicShader.h"
-#include "shaders/staticShader.h"
-#include "shaders/terrainShader.h"
-#include "shaders/waterShader.h"
-#include "shaders/skyboxShader.h"
-#include "entities/entity.h"
-#include "entities/light.h"
-#include "entities/skybox.h"
-#include "terrains/terrain.h"
-#include "terrains/water.h"
-#include "textures/waterFbo.h"
 
-using namespace std;
+#include "object/scene/scene.h"
+
+#include "object/entity/entityRenderer.h"
+#include "object/terrain/terrainRenderer.h"
+#include "object/water/waterRenderer.h"
+#include "object/skybox/skyboxRenderer.h"
+
+#include "object/shader/basicShader.h"
+#include "object/entity/entityShader.h"
+#include "object/terrain/terrainShader.h"
+#include "object/water/waterShader.h"
+#include "object/skybox/skyboxShader.h"
+
+#include "object/water/waterFbo.h"
 
 class MainRender
 {
 public:
-    
+
     // Initialize render
     static void init();
-    
+
     // Main render process
     static void render();
-    
-    // Create an entity in the 3D world
-    static Entity* createEntity(const char* name);
-    
-    // Create a terrain in the 3D world
-    static Terrain* createTerrain(const char* name, int gridX, int gridZ);
-    
-    // Create a water terrain in the 3D world
-    static Water* createWater(int gridX, int gridZ, float y);
-    
-    // Remove the entity from the 3D world
-    static void destroyEntity(Entity* entity);
-    
-    // Remove the terrain from the 3D world
-    static void destroyTerrain(Terrain* terrain);
-    
-    // Remove the water terrain from the 3D world
-    static void destroyWater(Water* water);
-    
-    // Load light
-    static void loadLight(Light* _light);
-    
+
     // Clean up
     static void cleanUp();
-    
+
+    // Get current scene
+    static Scene* getScene();
+
+    // Set current scene
+    static void setScene(Scene* _scene);
+
 private:
-    
+
     // Field of view angle
     static const float FOV;
 
@@ -62,29 +47,31 @@ private:
 
     // Far projection plane
     static const float Z_FAR;
-    
-    // Objects being rendered
-    static unordered_map<string, unordered_set<Entity*>> entityMap;
-    static unordered_set<Terrain*> terrainSet;
-    static unordered_set<Water*> waterSet;
-    static WaterFbo* waterFbo;
-    static Skybox* skybox;
-    
+
+    // Current scene
+    static Scene* scene;
+
+    // Renderers
+    static EntityRenderer* entityRenderer;
+    static TerrainRenderer* terrainRenderer;
+    static WaterRenderer* waterRenderer;
+    static SkyboxRenderer* skyboxRenderer;
+
     // Shader program
-    static StaticShader* staticShader;
+    static EntityShader* entityShader;
     static TerrainShader* terrainShader;
     static WaterShader* waterShader;
     static SkyboxShader* skyboxShader;
 
-    // Light in the 3D world
-    static Light* light;
-    
+    // Water frame buffer object for water rendering
+    static WaterFbo* waterFbo;
+
     // Render everything except water
     static void renderWithoutWater(const float* cameraMatrix, float clipHeight = -1e10, bool clipPositive = false);
-    
+
     // Render water only
     static void renderWater(const float* cameraMatrix, const float* reflectionCameraMatrix);
-    
+
     // Prepare shader for rendering
     static void prepareShader(BasicShader* shader, const float* cameraMatrix, float clipHeight = -1e10, bool clipPositive = false);
 };
