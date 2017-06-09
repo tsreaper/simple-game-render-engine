@@ -1,4 +1,4 @@
-#include "camera.h"
+#include "render/object/camera/camera.h"
 
 // Positions of camera
 float Camera::x = 0;

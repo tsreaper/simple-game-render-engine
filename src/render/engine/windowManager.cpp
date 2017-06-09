@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 
-#include "../../utils/input/keyboard.h"
-#include "windowManager.h"
+#include "utils/input/keyboard.h"
+#include "render/engine/windowManager.h"
 
 using namespace std;
 

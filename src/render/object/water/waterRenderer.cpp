@@ -1,5 +1,10 @@
-#include "../../../utils/math/math.h"
-#include "waterRenderer.h"
+#include <algorithm>
+
+#include "utils/math/math.h"
+#include "render/object/camera/camera.h"
+#include "render/object/water/waterRenderer.h"
+
+using namespace std;
 
 // DUDV map moving factor changing speed
 const float WaterRenderer::DUDV_MOVE_SPEED = 0.0005;
@@ -12,7 +17,7 @@ WaterRenderer::WaterRenderer()
 }
 
 // Render a water terrain
-void WaterRenderer::render(const Water* water, WaterShader* shader)
+void WaterRenderer::render(const Water* water, Light* light[], int lightSize, WaterShader* shader)
 {
     // Calculate transformation matrix
     float* transMatrix = Math::createTransMatrix(
@@ -25,6 +30,10 @@ void WaterRenderer::render(const Water* water, WaterShader* shader)
     if (moveFac >= 1)
         moveFac = 0;
     shader->loadMoveFac(moveFac);
+
+    // Sort and load light
+    sortLight(light, lightSize);
+    shader->loadLight(light, lightSize);
 
     // Draw water quad
     glDrawArrays(GL_TRIANGLE_STRIP, 0, water->getModel()->getVertexCount());
@@ -57,4 +66,19 @@ void WaterRenderer::unbindWater()
 {
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);
+}
+
+// Sort light
+void WaterRenderer::sortLight(Light* light[], int lightSize)
+{
+    // If light source is nearer to the camera, it has higher priority
+    sort(
+        light, light + lightSize,
+        [](Light* a, Light* b) -> bool
+        {
+            float attA = a->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
+            float attB = b->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
+            return attA < attB;
+        }
+    );
 }

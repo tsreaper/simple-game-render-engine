@@ -3,11 +3,11 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include "../entity/entity.h"
-#include "../terrain/terrain.h"
-#include "../water/water.h"
-#include "../light/light.h"
-#include "../skybox/skybox.h"
+#include "render/object/entity/entity.h"
+#include "render/object/terrain/terrain.h"
+#include "render/object/water/water.h"
+#include "render/object/light/light.h"
+#include "render/object/skybox/skybox.h"
 
 using namespace std;
 
@@ -19,11 +19,7 @@ public:
     static const float NO_WATER;
 
     // Constructor
-    Scene(
-        float sunX = 0, float sunY = 1e5, float sunZ = 0,
-        float sunR = 1, float sunG = 1, float sunB = 1,
-        float _waterHeight = -1e10
-    );
+    Scene(float _waterHeight = NO_WATER);
 
     // Destructor
     ~Scene();
@@ -34,11 +30,11 @@ public:
     // Get water height
     float getWaterHeight() const;
 
-    // Get sun light
-    Light* getSun() const;
-
     // Get skybox
     Skybox* getSkybox() const;
+
+    // Get all light
+    const unordered_set<Light*>* getAllLight() const;
 
     // Get all entities
     const unordered_map<string, unordered_set<Entity*>>* getAllEntities() const;
@@ -52,8 +48,11 @@ public:
     // Set water height
     void setWaterHeight(float _waterHeight);
 
-    // Set sun light
-    void setSun(float x, float y, float z, float r, float g, float b);
+    // Add light into scene
+    Light* addLight(
+        float x, float y, float z, float r, float g, float b,
+        float att0 = 1, float att1 = 0, float att2 = 0
+    );
 
     // Add an entity into scene
     Entity* addEntity(
@@ -70,6 +69,9 @@ public:
     // Add water into scene
     Water* addWater(int gridX, int gridZ);
 
+    // Delete light from scene
+    void deleteLight(Light* light);
+
     // Delete an entity from scene
     void deleteEntity(Entity* entity);
 
@@ -84,11 +86,11 @@ private:
     // Water height in the scene
     float waterHeight;
 
-    // Sun(main light) in the scene
-    Light* sun;
-
     // Skybox of the scene
     Skybox* sky;
+
+    // Light in the scene
+    unordered_set<Light*> lightSet;
 
     // Entity map
     unordered_map<string, unordered_set<Entity*>> entityMap;

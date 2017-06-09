@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "../loader/modelLoader.h"
-#include "geometricModel.h"
+#include "render/resource/loader/modelLoader.h"
+#include "render/resource/model/geometricModel.h"
 
 using namespace std;
 

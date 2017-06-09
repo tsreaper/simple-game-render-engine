@@ -1,7 +1,7 @@
 #ifndef _OBJ_LOADER_H
 #define _OBJ_LOADER_H
 
-#include "../model/rawModel.h"
+#include "render/resource/model/rawModel.h"
 
 // Obj file loader
 class ObjLoader

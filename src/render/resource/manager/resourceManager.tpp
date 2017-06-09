@@ -2,9 +2,9 @@
 #include <fstream>
 #include <typeinfo>
 
-#include "../loader/modelLoader.h"
-#include "../loader/objLoader.h"
-#include "../loader/textureLoader.h"
+#include "render/resource/loader/modelLoader.h"
+#include "render/resource/loader/objLoader.h"
+#include "render/resource/loader/textureLoader.h"
 
 using namespace std;
 

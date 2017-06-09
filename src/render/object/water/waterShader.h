@@ -1,7 +1,7 @@
 #ifndef _WATER_SHADER_H
 #define _WATER_SHADER_H
 
-#include "../shader/basicShader.h"
+#include "render/object/shader/basicShader.h"
 
 // Shader for water
 class WaterShader : public BasicShader

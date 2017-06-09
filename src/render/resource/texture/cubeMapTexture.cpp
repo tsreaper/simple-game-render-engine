@@ -1,4 +1,4 @@
-#include "cubeMapTexture.h"
+#include "render/resource/texture/cubeMapTexture.h"
 
 // Constructor
 CubeMapTexture::CubeMapTexture(

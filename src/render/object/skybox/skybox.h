@@ -1,8 +1,8 @@
 #ifndef _SKYBOX_H
 #define _SKYBOX_H
 
-#include "../../resource/model/rawModel.h"
-#include "../../resource/texture/cubeMapTexture.h"
+#include "render/resource/model/rawModel.h"
+#include "render/resource/texture/cubeMapTexture.h"
 
 class Skybox
 {

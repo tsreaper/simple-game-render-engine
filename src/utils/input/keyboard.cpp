@@ -1,4 +1,4 @@
-#include "keyboard.h"
+#include "utils/input/keyboard.h"
 
 // Key pressed status
 bool Keyboard::keyPressed[500];

@@ -1,4 +1,7 @@
-#include "basicShader.h"
+#include <string>
+#include "render/object/shader/basicShader.h"
+
+using namespace std;
 
 // Shader functions
 const int BasicShader::SHADER_LOAD_LIGHT = 1;
@@ -35,12 +38,23 @@ void BasicShader::loadProjMatrix(const float* matrix)
 }
 
 // Load light into shader program
-void BasicShader::loadLight(Light* light)
+void BasicShader::loadLight(Light* light[], int size)
 {
     if (mode & SHADER_LOAD_LIGHT)
     {
-        loadVector3(lightPosLoc, light->getX(), light->getY(), light->getZ());
-        loadVector3(lightColLoc, light->getR(), light->getG(), light->getB());
+        int cnt = min(size, 8);
+        for (int i = 0; i < cnt; i++)
+        {
+            loadVector3(lightPosLoc[i], light[i]->getX(), light[i]->getY(), light[i]->getZ());
+            loadVector3(lightColLoc[i], light[i]->getR(), light[i]->getG(), light[i]->getB());
+            loadVector3(lightAttenuationLoc[i], light[i]->getAtt0(), light[i]->getAtt1(), light[i]->getAtt2());
+        }
+        for (int i = size; i < 8; i++)
+        {
+            loadVector3(lightPosLoc[i], 0, 0, 0);
+            loadVector3(lightColLoc[i], 0, 0, 0);
+            loadVector3(lightAttenuationLoc[i], 1, 0, 0);
+        }
     }
 }
 
@@ -69,8 +83,12 @@ void BasicShader::getAllUniformLocs()
 
     if (mode & SHADER_LOAD_LIGHT)
     {
-        lightPosLoc = getUniformLoc("lightPos");
-        lightColLoc = getUniformLoc("lightCol");
+        for (int i = 0; i < 8; i++)
+        {
+            lightPosLoc[i] = getUniformLoc(("lightPos[" + to_string(i) + "]").c_str());
+            lightColLoc[i] = getUniformLoc(("lightCol[" + to_string(i) + "]").c_str());
+            lightAttenuationLoc[i] = getUniformLoc(("lightAttenuation[" + to_string(i) + "]").c_str());
+        }
     }
 
     skyColLoc = getUniformLoc("skyCol");

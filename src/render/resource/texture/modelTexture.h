@@ -2,7 +2,7 @@
 #define _MODEL_TEXTURE_H
 
 #include <string>
-#include "../../../glew.h"
+#include "glew.h"
 
 using namespace std;
 

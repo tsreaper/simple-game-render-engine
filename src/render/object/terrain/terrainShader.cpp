@@ -1,4 +1,4 @@
-#include "terrainShader.h"
+#include "render/object/terrain/terrainShader.h"
 
 // Vertex shader file name
 const char* TerrainShader::VERTEX_FILE = "src/render/object/terrain/terrainVertex.glsl";

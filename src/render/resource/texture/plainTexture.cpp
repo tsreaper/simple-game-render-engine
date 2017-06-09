@@ -1,4 +1,4 @@
-#include "plainTexture.h"
+#include "render/resource/texture/plainTexture.h"
 
 // Constructor
 PlainTexture::PlainTexture(const char* _name, GLuint id): name(_name), textureId(id) {}

@@ -1,10 +1,11 @@
 #ifndef _WATER_RENDERER_H
 #define _WATER_RENDERER_H
 
-#include "../../../glew.h"
-#include "water.h"
-#include "waterFbo.h"
-#include "waterShader.h"
+#include "glew.h"
+#include "render/object/light/light.h"
+#include "render/object/water/water.h"
+#include "render/object/water/waterFbo.h"
+#include "render/object/water/waterShader.h"
 
 // Water renderer
 class WaterRenderer
@@ -18,7 +19,7 @@ public:
     WaterRenderer();
 
     // Render a water terrain
-    void render(const Water* water, WaterShader* shader);
+    void render(const Water* water, Light* light[], int lightSize, WaterShader* shader);
 
     // Bind water quad model
     void bindWater(const Water* water, const WaterFbo* fbo);
@@ -30,6 +31,9 @@ private:
 
     // DUDV map moving factor
     float moveFac;
+
+    // Sort light
+    void sortLight(Light* light[], int lightSize);
 };
 
 #endif

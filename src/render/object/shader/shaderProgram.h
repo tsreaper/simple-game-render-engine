@@ -1,7 +1,7 @@
 #ifndef _SHADER_PROGRAM_H
 #define _SHADER_PROGRAM_H
 
-#include "../../../glew.h"
+#include "glew.h"
 
 // Base class for shader
 class ShaderProgram

@@ -1,5 +1,5 @@
-#include "../../engine/windowManager.h"
-#include "waterFbo.h"
+#include "render/engine/windowManager.h"
+#include "render/object/water/waterFbo.h"
 
 // Size of reflection FBO
 const int WaterFbo::REFLECTION_WIDTH = 1280;

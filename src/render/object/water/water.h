@@ -1,8 +1,8 @@
 #ifndef _WATER_H
 #define _WATER_H
 
-#include "../../resource/model/rawModel.h"
-#include "../../resource/texture/plainTexture.h"
+#include "render/resource/model/rawModel.h"
+#include "render/resource/texture/plainTexture.h"
 
 // Water
 class Water

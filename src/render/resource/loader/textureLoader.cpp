@@ -4,8 +4,8 @@
 #include <fstream>
 #include <string>
 
-#include "../../../thirdparty/lodepng/lodepng.h"
-#include "textureLoader.h"
+#include "thirdparty/lodepng/lodepng.h"
+#include "render/resource/loader/textureLoader.h"
 
 using namespace std;
 

@@ -4,16 +4,17 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "object/entity/entity.h"
-#include "object/terrain/terrain.h"
-#include "object/water/water.h"
-#include "object/skybox/skybox.h"
+#include "render/object/light/light.h"
+#include "render/object/entity/entity.h"
+#include "render/object/terrain/terrain.h"
+#include "render/object/water/water.h"
+#include "render/object/skybox/skybox.h"
 
-#include "../utils/math/math.h"
-#include "engine/windowManager.h"
-#include "object/camera/camera.h"
+#include "utils/math/math.h"
+#include "render/engine/windowManager.h"
+#include "render/object/camera/camera.h"
 
-#include "mainRender.h"
+#include "render/mainRender.h"
 
 using namespace std;
 
@@ -148,6 +149,14 @@ void MainRender::renderWithoutWater(const float* cameraMatrix, float clipHeight,
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.61, 0.76, 0.88, 1);
 
+    // Get light in scene
+    const unordered_set<Light*>* lightSet = scene->getAllLight();
+    Light** light = new Light*[lightSet->size()];
+
+    int lightSize = 0;
+    for (auto l : *lightSet)
+        light[lightSize++] = l;
+
     // Render entities
     const unordered_map<string, unordered_set<Entity*>>* entityMap = scene->getAllEntities();
     prepareShader(entityShader, cameraMatrix, clipHeight, clipPositive);
@@ -155,7 +164,7 @@ void MainRender::renderWithoutWater(const float* cameraMatrix, float clipHeight,
     {
         entityRenderer->bindEntity(*(entitySet.second.begin()), entityShader);
         for (auto entity : entitySet.second)
-            entityRenderer->render(entity, entityShader);
+            entityRenderer->render(entity, light, lightSize, entityShader);
         entityRenderer->unbindEntity();
     }
     entityShader->stop();
@@ -167,7 +176,7 @@ void MainRender::renderWithoutWater(const float* cameraMatrix, float clipHeight,
     {
         terrainRenderer->bindTerrain(*(terrainSet.second.begin()));
         for (auto terrain : terrainSet.second)
-            terrainRenderer->render(terrain, terrainShader);
+            terrainRenderer->render(terrain, light, lightSize, terrainShader);
         terrainRenderer->unbindTerrain();
     }
     terrainShader->stop();
@@ -177,11 +186,22 @@ void MainRender::renderWithoutWater(const float* cameraMatrix, float clipHeight,
     prepareShader(skyboxShader, cameraMatrix, clipHeight, clipPositive);
     skyboxRenderer->render(skybox, skyboxShader);
     skyboxShader->stop();
+
+    // Clean up
+    delete[] light;
 }
 
 // Render water only
 void MainRender::renderWater(const float* cameraMatrix, const float* reflectionCameraMatrix)
 {
+    // Get light in scene
+    const unordered_set<Light*>* lightSet = scene->getAllLight();
+    Light** light = new Light*[lightSet->size()];
+
+    int lightSize = 0;
+    for (auto l : *lightSet)
+        light[lightSize++] = l;
+
     // Render water refraction effect
     waterFbo->bindRefractionFbo();
     renderWithoutWater(cameraMatrix, scene->getWaterHeight() + 1, true);
@@ -199,9 +219,12 @@ void MainRender::renderWater(const float* cameraMatrix, const float* reflectionC
     {
         waterRenderer->bindWater(*(waterSet->begin()), waterFbo);
         for (auto water : *waterSet)
-            waterRenderer->render(water, waterShader);
+            waterRenderer->render(water, light, lightSize, waterShader);
         waterRenderer->unbindWater();
     }
+
+    // Clean up
+    delete[] light;
 }
 
 // Prepare shader for rendering
@@ -210,6 +233,5 @@ void MainRender::prepareShader(BasicShader* shader, const float* cameraMatrix, f
     shader->start();
     shader->loadCameraMatrix(cameraMatrix);
     shader->loadSkyCol(0.61, 0.76, 0.88);
-    shader->loadLight(scene->getSun());
     shader->loadClipping(clipHeight, clipPositive);
 }

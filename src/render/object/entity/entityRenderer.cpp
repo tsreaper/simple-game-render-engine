@@ -1,9 +1,13 @@
-#include "../../../utils/math/math.h"
-#include "../../resource/texture/modelTexture.h"
-#include "entityRenderer.h"
+#include <algorithm>
+
+#include "utils/math/math.h"
+#include "render/resource/texture/modelTexture.h"
+#include "render/object/entity/entityRenderer.h"
+
+using namespace std;
 
 // Render an entity
-void EntityRenderer::render(const Entity* entity, EntityShader* shader)
+void EntityRenderer::render(const Entity* entity, Light* light[], int lightSize, EntityShader* shader)
 {
     // Calculate transformation matrix
     float* transMatrix = Math::createTransMatrix(
@@ -15,6 +19,10 @@ void EntityRenderer::render(const Entity* entity, EntityShader* shader)
 
     // Load atlas position
     shader->loadAtlasPos(entity->getAtlasPos());
+
+    // Sort and load light
+    sortLight(light, lightSize, entity);
+    shader->loadLight(light, lightSize);
 
     // Draw model
     glDrawElements(GL_TRIANGLES, entity->getModel()->getVertexCount(), GL_UNSIGNED_INT, NULL);
@@ -51,4 +59,19 @@ void EntityRenderer::unbindEntity()
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
     glBindVertexArray(0);
+}
+
+// Sort light
+void EntityRenderer::sortLight(Light* light[], int lightSize, const Entity* entity)
+{
+    // If light source is nearer to entity, it has higher priority
+    sort(
+        light, light + lightSize,
+        [&](Light* a, Light* b) -> bool
+        {
+            float attA = a->calcAttenuation(entity->getTX(), entity->getTY(), entity->getTZ());
+            float attB = b->calcAttenuation(entity->getTX(), entity->getTY(), entity->getTZ());
+            return attA < attB;
+        }
+    );
 }

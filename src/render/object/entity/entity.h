@@ -1,8 +1,8 @@
 #ifndef _ENTITY_H
 #define _ENTITY_H
 
-#include "../../resource/model/rawModel.h"
-#include "../../resource/texture/modelTexture.h"
+#include "render/resource/model/rawModel.h"
+#include "render/resource/texture/modelTexture.h"
 
 // Entity in the 3D world
 class Entity

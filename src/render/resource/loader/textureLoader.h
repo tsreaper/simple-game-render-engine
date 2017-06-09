@@ -1,10 +1,10 @@
 #ifndef _TEXTURE_LOADER
 #define _TEXTURE_LOADER
 
-#include "../texture/plainTexture.h"
-#include "../texture/modelTexture.h"
-#include "../texture/terrainTexture.h"
-#include "../texture/cubeMapTexture.h"
+#include "render/resource/texture/plainTexture.h"
+#include "render/resource/texture/modelTexture.h"
+#include "render/resource/texture/terrainTexture.h"
+#include "render/resource/texture/cubeMapTexture.h"
 
 class TextureLoader
 {

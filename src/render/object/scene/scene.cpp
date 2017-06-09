@@ -1,5 +1,5 @@
 #include <iostream>
-#include "scene.h"
+#include "render/object/scene/scene.h"
 
 using namespace std;
 
@@ -7,19 +7,22 @@ using namespace std;
 const float Scene::NO_WATER = -1e10;
 
 // Constructor
-Scene::Scene(
-    float sunX, float sunY, float sunZ,
-    float sunR, float sunG, float sunB,
-    float _waterHeight
-): waterHeight(_waterHeight)
+Scene::Scene(float _waterHeight): waterHeight(_waterHeight)
 {
-    sun = new Light(sunX, sunY, sunZ, sunR, sunG, sunB);
     sky = new Skybox();
 }
 
 // Destructor
 Scene::~Scene()
 {
+    // Clean uo light
+    for (auto i = lightSet.begin(); i != lightSet.end();)
+    {
+        auto nxti = next(i);
+        deleteLight(*i);
+        i = nxti;
+    }
+
     // Clean up entities
     for (auto i = entityMap.begin(); i != entityMap.end();)
     {
@@ -54,8 +57,7 @@ Scene::~Scene()
         i = nxti;
     }
 
-    // Clean up sun light and skybox
-    delete sun;
+    // Clean up skybox
     delete sky;
 }
 
@@ -71,16 +73,16 @@ float Scene::getWaterHeight() const
     return waterHeight;
 }
 
-// Get sun light
-Light* Scene::getSun() const
-{
-    return sun;
-}
-
 // Get skybox
 Skybox* Scene::getSkybox() const
 {
     return sky;
+}
+
+// Get all light
+const unordered_set<Light*>* Scene::getAllLight() const
+{
+    return &lightSet;
 }
 
 // Get all entities
@@ -109,11 +111,15 @@ void Scene::setWaterHeight(float _waterHeight)
         water->setY(waterHeight);
 }
 
-// Set sun light
-void Scene::setSun(float x, float y, float z, float r, float g, float b)
+// Add light into scene
+Light* Scene::addLight(
+    float x, float y, float z, float r, float g, float b,
+    float att0, float att1, float att2
+)
 {
-    delete sun;
-    sun = new Light(x, y, z, r, g, b);
+    Light* light = new Light(x, y, z, r, g, b, att0, att1, att2);
+    lightSet.insert(light);
+    return light;
 }
 
 // Add an entity into scene
@@ -148,6 +154,13 @@ Water* Scene::addWater(int gridX, int gridZ)
     Water* water = new Water(gridX, gridZ, waterHeight);
     waterSet.insert(water);
     return water;
+}
+
+// Delete light from scene
+void Scene::deleteLight(Light* light)
+{
+    lightSet.erase(light);
+    delete light;
 }
 
 // Delete an entity from scene

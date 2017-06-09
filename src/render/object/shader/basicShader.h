@@ -1,9 +1,9 @@
 #ifndef _BASIC_SHADER_H
 #define _BASIC_SHADER_H
 
-#include "../../../glew.h"
-#include "../light/light.h"
-#include "shaderProgram.h"
+#include "glew.h"
+#include "render/object/light/light.h"
+#include "render/object/shader/shaderProgram.h"
 
 // Basic shader for models
 class BasicShader : public ShaderProgram
@@ -28,7 +28,7 @@ public:
     void loadProjMatrix(const float* matrix);
 
     // Load light into shader program
-    void loadLight(Light* light);
+    void loadLight(Light* light[], int size);
 
     // Load sky color into shader program
     void loadSkyCol(float r, float g, float b);
@@ -59,10 +59,13 @@ private:
     GLuint projMatrixLoc;
 
     // Location of light position in shader program
-    GLuint lightPosLoc;
+    GLuint lightPosLoc[8];
 
     // Location of light color in shader program
-    GLuint lightColLoc;
+    GLuint lightColLoc[8];
+
+    // Location of light attenuation factor in shader program
+    GLuint lightAttenuationLoc[8];
 
     // Location of sky color in shader program
     GLuint skyColLoc;

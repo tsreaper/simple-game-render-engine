@@ -1,4 +1,4 @@
-#include "resourceManager.h"
+#include "render/resource/manager/resourceManager.h"
 
 // Pointer maps
 unordered_map<string, refCount<RawModel>> ResourceManager::rawModelMap;

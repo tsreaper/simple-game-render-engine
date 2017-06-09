@@ -1,7 +1,7 @@
 #ifndef _MAIN_LOGIC_H
 #define _MAIN_LOGIC_H
 
-#include "../glew.h"
+#include "glew.h"
 #include <GLFW/glfw3.h>
 
 // Main logic of game

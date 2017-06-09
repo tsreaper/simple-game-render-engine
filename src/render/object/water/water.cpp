@@ -1,7 +1,7 @@
-#include "../../resource/manager/resourceManager.h"
-#include "../../resource/model/geometricModel.h"
+#include "render/resource/manager/resourceManager.h"
+#include "render/resource/model/geometricModel.h"
 
-#include "water.h"
+#include "render/object/water/water.h"
 
 // Size of a water terrain
 const float Water::SIZE = 1024;

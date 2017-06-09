@@ -1,18 +1,24 @@
-#include <iostream>
-#include "../../../utils/math/math.h"
-#include "../../resource/texture/terrainTexture.h"
-#include "terrainRenderer.h"
+#include <algorithm>
+
+#include "utils/math/math.h"
+#include "render/object/camera/camera.h"
+#include "render/resource/texture/terrainTexture.h"
+#include "render/object/terrain/terrainRenderer.h"
 
 using namespace std;
 
 // Render a terrain
-void TerrainRenderer::render(const Terrain* terrain, TerrainShader* shader)
+void TerrainRenderer::render(const Terrain* terrain, Light* light[], int lightSize, TerrainShader* shader)
 {
     // Calculate transformation matrix
     float* transMatrix = Math::createTransMatrix(
         terrain->getX(), 0, terrain->getZ(), 0, 0, 0, 1
     );
     shader->loadTransMatrix(transMatrix);
+
+    // Sort and load light
+    sortLight(light, lightSize);
+    shader->loadLight(light, lightSize);
 
     // Bind raw model
     glBindVertexArray(terrain->getModel()->getVaoId());
@@ -53,4 +59,19 @@ void TerrainRenderer::bindTerrain(const Terrain* terrain)
 void TerrainRenderer::unbindTerrain()
 {
     // Currently does nothing...
+}
+
+// Sort light
+void TerrainRenderer::sortLight(Light* light[], int lightSize)
+{
+    // If light source is nearer to the camera, it has higher priority
+    sort(
+        light, light + lightSize,
+        [](Light* a, Light* b) -> bool
+        {
+            float attA = a->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
+            float attB = b->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
+            return attA < attB;
+        }
+    );
 }

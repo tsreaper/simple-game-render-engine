@@ -6,8 +6,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "modelLoader.h"
-#include "objLoader.h"
+#include "render/resource/loader/modelLoader.h"
+#include "render/resource/loader/objLoader.h"
 
 using namespace std;
 

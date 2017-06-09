@@ -1,4 +1,4 @@
-#include "modelTexture.h"
+#include "render/resource/texture/modelTexture.h"
 
 // Constructor
 ModelTexture::ModelTexture(

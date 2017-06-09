@@ -1,9 +1,9 @@
 #ifndef _SKYBOX_RENDERER_H
 #define _SKYBOX_RENDERER_H
 
-#include "../../../glew.h"
-#include "skybox.h"
-#include "skyboxShader.h"
+#include "glew.h"
+#include "render/object/skybox/skybox.h"
+#include "render/object/skybox/skyboxShader.h"
 
 // Skybox renderer
 class SkyboxRenderer

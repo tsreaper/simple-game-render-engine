@@ -1,7 +1,7 @@
 #ifndef _GEOMETRIC_MODEL_H
 #define _GEOMETRIC_MODEL_H
 
-#include "rawModel.h"
+#include "render/resource/model/rawModel.h"
 
 class GeometricModel
 {

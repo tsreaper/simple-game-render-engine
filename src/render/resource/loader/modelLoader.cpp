@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../../../thirdparty/lodepng/lodepng.h"
+#include "thirdparty/lodepng/lodepng.h"
 
-#include "modelLoader.h"
+#include "render/resource/loader/modelLoader.h"
 
 using namespace std;
 

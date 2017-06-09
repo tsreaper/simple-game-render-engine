@@ -1,7 +1,7 @@
 #ifndef _TERRAIN_SHADER_H
 #define _TERRAIN_SHADER_H
 
-#include "../shader/basicShader.h"
+#include "render/object/shader/basicShader.h"
 
 // Shader for terrain
 class TerrainShader : public BasicShader

@@ -1,7 +1,7 @@
 #ifndef _WINDOW_MANAGER_H
 #define _WINDOW_MANAGER_H
 
-#include "../../glew.h"
+#include "glew.h"
 #include <GLFW/glfw3.h>
 
 // Class for displaying window

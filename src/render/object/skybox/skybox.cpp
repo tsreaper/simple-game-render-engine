@@ -1,6 +1,6 @@
-#include "../../resource/manager/resourceManager.h"
-#include "../../resource/model/geometricModel.h"
-#include "skybox.h"
+#include "render/resource/manager/resourceManager.h"
+#include "render/resource/model/geometricModel.h"
+#include "render/object/skybox/skybox.h"
 
 // Rotation speed of the skybox
 const float Skybox::ROTATE_SPEED = 0.0001;

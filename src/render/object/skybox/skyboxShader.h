@@ -1,7 +1,7 @@
 #ifndef _SKYBOX_SHADER_H
 #define _SKYBOX_SHADER_H
 
-#include "../shader/basicShader.h"
+#include "render/object/shader/basicShader.h"
 
 // Shader for skybox
 class SkyboxShader : public BasicShader

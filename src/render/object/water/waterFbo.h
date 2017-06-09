@@ -1,7 +1,7 @@
 #ifndef _WATER_FBO
 #define _WATER_FBO
 
-#include "../../../glew.h"
+#include "glew.h"
 
 // FBO of water. Used for texturing water
 class WaterFbo

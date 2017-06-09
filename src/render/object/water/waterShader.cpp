@@ -1,4 +1,4 @@
-#include "waterShader.h"
+#include "render/object/water/waterShader.h"
 
 // Vertex shader file name
 const char* WaterShader::VERTEX_FILE = "src/render/object/water/waterVertex.glsl";

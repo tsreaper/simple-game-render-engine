@@ -1,4 +1,4 @@
-#include "skyboxShader.h"
+#include "render/object/skybox/skyboxShader.h"
 
 // Vertex shader file name
 const char* SkyboxShader::VERTEX_FILE = "src/render/object/skybox/skyboxVertex.glsl";

@@ -1,5 +1,5 @@
-#include "../../resource/manager/resourceManager.h"
-#include "entity.h"
+#include "render/resource/manager/resourceManager.h"
+#include "render/object/entity/entity.h"
 
 // Constructor
 Entity::Entity(

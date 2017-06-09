@@ -2,8 +2,8 @@
 
 in vec4 passCoord;
 in vec2 texCoord;
-in vec3 toLightVec;
 in vec3 toCameraVec;
+in vec3 toLightVec[8];
 
 out vec4 pixel;
 
@@ -14,7 +14,8 @@ uniform sampler2D normMap;
 uniform sampler2D depthMap;
 uniform float moveFac;
 
-uniform vec3 lightCol;
+uniform vec3 lightCol[8];
+uniform vec3 lightAttenuation[8];
 
 uniform vec3 skyCol;
 
@@ -34,8 +35,14 @@ float parseDepth(float depth)
     return Z_NEAR*Z_FAR*2 / (Z_FAR+Z_NEAR - (depth*2-1)*(Z_FAR-Z_NEAR));
 }
 
+float calcAttenuation(vec3 fac, float dis)
+{
+    return fac.x + fac.y * dis + fac.z * dis * dis;
+}
+
 void main(void)
 {
+    // Calculate water distortion
     vec2 biasedCoord = texture(dudvMap, vec2(texCoord.x + moveFac, texCoord.y)).rg * 0.1;
     biasedCoord = texCoord + vec2(biasedCoord.x ,biasedCoord.y + moveFac);
     vec2 distortion = (texture(dudvMap, biasedCoord).rg*2-1) * WAVE_STRENGTH;
@@ -44,13 +51,14 @@ void main(void)
     float distortedX = clamp(texX + distortion.x, 0.001, 0.999);
     float distortedY = clamp(texY + distortion.y, 0.001, 0.999);
 
+    // Water depth effect. Shallow water will be more transparent and less reflective
     float depth = parseDepth(texture(depthMap, vec2(texX, texY)).r) - parseDepth(gl_FragCoord.z);
     depth = clamp(depth/7, 0.0, 1.0);
 
+    // Calculate light
     vec3 normCol = texture(normMap, biasedCoord).rgb;
     vec3 norm = vec3(normCol.r*2-1, normCol.b, normCol.g*2-1);
     vec3 unitNorm = normalize(norm);
-    vec3 unitLight = normalize(toLightVec);
     vec3 unitCamera = normalize(toCameraVec);
 
     vec4 reflectionCol = texture(reflection, vec2(distortedX, -distortedY));
@@ -59,13 +67,26 @@ void main(void)
     pixel = mix(reflectionCol, refractionCol, refractionFac);
     pixel = mix(pixel, vec4(0.0, 0.3, 0.5, 1.0), 0.2);
 
-    float brightness = max(dot(unitNorm, unitLight), 0.2);
-    vec3 diffuse = brightness * lightCol;
+    vec3 unitLight[8];
+    for (int i = 0; i < 8; i++)
+        unitLight[i] = normalize(toLightVec[i]);
 
-    vec3 reflectDir = reflect(-unitLight, unitNorm);
-    vec3 specular = pow(max(dot(reflectDir, unitCamera), 0.0), SHINE_DAMPER) * REFLECTIVITY * lightCol;
+    vec3 diffuse = vec3(0, 0, 0);
+    vec3 specular = vec3(0, 0, 0);
+    for (int i = 0; i < 8; i++)
+    {
+        float dis = length(toLightVec[i]);
+        float attenuation = calcAttenuation(lightAttenuation[i], dis);
+        diffuse += dot(unitNorm, unitLight[i])/attenuation * lightCol[i];
+
+        vec3 reflectDir = reflect(-unitLight[i], unitNorm);
+        specular += pow(max(dot(reflectDir, unitCamera)/attenuation, 0.0), SHINE_DAMPER) * REFLECTIVITY * lightCol[i];
+    }
+    diffuse = max(diffuse, 0.2);
+
     pixel = vec4(diffuse, 1.0) * pixel + vec4(specular, 1.0) * depth;
 
+    // Calculate fog
     float dis = length(toCameraVec.xyz);
     float visibility = exp(-pow(dis*FOG_DENSITY, FOG_GRADIENT));
     visibility = clamp(visibility, 0.0, 1.0);

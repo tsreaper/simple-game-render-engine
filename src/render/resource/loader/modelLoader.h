@@ -2,8 +2,8 @@
 #define _MODEL_LOADER_H
 
 #include <vector>
-#include "../../../glew.h"
-#include "../model/rawModel.h"
+#include "glew.h"
+#include "render/resource/model/rawModel.h"
 
 using namespace std;
 

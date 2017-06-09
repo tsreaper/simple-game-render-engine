@@ -1,7 +1,7 @@
 #ifndef _KEYBOARD_H
 #define _KEYBOARD_H
 
-#include "../../glew.h"
+#include "glew.h"
 #include <GLFW/glfw3.h>
 
 // Keyboard input

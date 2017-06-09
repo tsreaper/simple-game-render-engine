@@ -1,7 +1,7 @@
 #ifndef _ENTITY_SHADER_H
 #define _ENTITY_SHADER_H
 
-#include "../shader/basicShader.h"
+#include "render/object/shader/basicShader.h"
 
 // Shader for static model
 class EntityShader : public BasicShader

@@ -1,4 +1,4 @@
-#include "terrainTexture.h"
+#include "render/resource/texture/terrainTexture.h"
 
 // Constructor
 TerrainTexture::TerrainTexture(

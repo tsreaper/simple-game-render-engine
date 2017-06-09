@@ -1,4 +1,4 @@
-#include "entityShader.h"
+#include "render/object/entity/entityShader.h"
 
 // Vertex shader file name
 const char* EntityShader::VERTEX_FILE = "src/render/object/entity/entityVertex.glsl";

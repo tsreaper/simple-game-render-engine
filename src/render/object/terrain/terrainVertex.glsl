@@ -6,14 +6,14 @@ in vec3 norm;
 
 out vec2 passCoord;
 out vec3 vertexNorm;
-out vec3 toLightVec;
 out vec3 toCameraVec;
+out vec3 toLightVec[8];
 
 uniform mat4 transMatrix;
 uniform mat4 cameraMatrix;
 uniform mat4 projMatrix;
 
-uniform vec3 lightPos;
+uniform vec3 lightPos[8];
 
 uniform float clipHeight;
 uniform float clipPositive;
@@ -37,6 +37,8 @@ void main(void)
 
     passCoord = textureCoord;
     vertexNorm = (transMatrix * vec4(norm, 0.0)).xyz;
-    toLightVec = lightPos - worldCoord.xyz;
     toCameraVec = (inverse(cameraMatrix) * vec4(0.0, 0.0, 0.0, 1.0) - worldCoord).xyz;
+
+    for (int i = 0; i < 8; i++)
+        toLightVec[i] = lightPos[i] - worldCoord.xyz;
 }

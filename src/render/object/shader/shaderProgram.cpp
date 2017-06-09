@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "shaderProgram.h"
+#include "render/object/shader/shaderProgram.h"
 
 using namespace std;
 
@@ -89,7 +89,7 @@ GLuint ShaderProgram::loadShader(const char* filename, int type)
 
     if (!file.is_open())
     {
-        cerr << "ERROR: [ShaderProgram::loadShader] Cannot load shader source " + string(filename) + "!" << endl;
+        cerr << "ERROR: [ShaderProgram::loadShader] Cannot load shader source " << filename << "!" << endl;
         exit(-1);
     }
 
@@ -114,7 +114,7 @@ GLuint ShaderProgram::loadShader(const char* filename, int type)
         char* shaderInfo = new char[logLength[0] + 1];
         glGetShaderInfoLog(shaderId, logLength[0], NULL, shaderInfo);
 
-        cerr << "ERROR: [ShaderProgram::loadShader] Cannot compile shader!" << endl;
+        cerr << "ERROR: [ShaderProgram::loadShader] Cannot compile shader " << filename << "!" << endl;
         cerr << shaderInfo << endl;
 
         delete[] shaderInfo;

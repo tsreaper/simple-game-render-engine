@@ -2,12 +2,12 @@
 #include <cmath>
 #include <iostream>
 
-#include "../../../utils/math/math.h"
-#include "../../resource/manager/resourceManager.h"
-#include "../../resource/loader/modelLoader.h"
-#include "../../../thirdparty/lodepng/lodepng.h"
+#include "utils/math/math.h"
+#include "render/resource/manager/resourceManager.h"
+#include "render/resource/loader/modelLoader.h"
+#include "thirdparty/lodepng/lodepng.h"
 
-#include "terrain.h"
+#include "render/object/terrain/terrain.h"
 
 using namespace std;
 

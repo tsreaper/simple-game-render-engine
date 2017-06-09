@@ -1,5 +1,14 @@
 #include <cmath>
-#include "math.h"
+#include "utils/math/math.h"
+
+// Calculate the distance between two points
+float Math::distance(float* p, float* q, int d)
+{
+    float dis = 0;
+    for (int i = 0; i < d; i++)
+        dis += (p[i] - q[i]) * (p[i] - q[i]);
+    return sqrt(dis);
+}
 
 // Normalize a vector
 void Math::normalize(float* vec, int d)

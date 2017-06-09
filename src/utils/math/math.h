@@ -6,6 +6,9 @@ class Math
 {
 public:
 
+    // Calculate the distance between two points
+    static float distance(float* p, float* q, int d);
+
     // Normalize a vector
     static void normalize(float* vec, int d);
 

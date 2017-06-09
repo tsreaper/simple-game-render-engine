@@ -7,7 +7,7 @@ class Light
 public:
 
     // Constructor
-    Light(float _x, float _y, float _z, float _r, float _g, float _b);
+    Light(float _x, float _y, float _z, float _r, float _g, float _b, float _att0 = 1, float _att1 = 0, float _att2 = 0);
 
     // Get X coordinate
     float getX() const;
@@ -27,6 +27,18 @@ public:
     // Get blue component
     float getB() const;
 
+    // Get attenuation factor 0
+    float getAtt0() const;
+
+    // Get attenuation factor 1
+    float getAtt1() const;
+
+    // Get attenuation factor 2
+    float getAtt2() const;
+
+    // Get light attenuation factor
+    float calcAttenuation(float _x, float _y, float _z) const;
+
     // Set X coordinate
     void setX(float _x);
 
@@ -45,6 +57,9 @@ public:
     // Set blue component
     void setB(float _b);
 
+    // Set light attenuation factor
+    void setAttenuation(float _att0, float _att1, float _att2);
+
 private:
 
     // XYZ positions
@@ -52,6 +67,9 @@ private:
 
     // RGB components
     float r, g, b;
+
+    // Attenuation components
+    float att0, att1, att2;
 };
 
 #endif

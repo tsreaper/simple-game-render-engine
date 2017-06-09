@@ -3,11 +3,11 @@
 
 #include <unordered_map>
 
-#include "../model/rawModel.h"
-#include "../texture/plainTexture.h"
-#include "../texture/modelTexture.h"
-#include "../texture/terrainTexture.h"
-#include "../texture/cubeMapTexture.h"
+#include "render/resource/model/rawModel.h"
+#include "render/resource/texture/plainTexture.h"
+#include "render/resource/texture/modelTexture.h"
+#include "render/resource/texture/terrainTexture.h"
+#include "render/resource/texture/cubeMapTexture.h"
 
 using namespace std;
 
@@ -51,6 +51,6 @@ private:
     static T* loadResource(const char* name);
 };
 
-#include "resourceManager.tpp"
+#include "render/resource/manager/resourceManager.tpp"
 
 #endif

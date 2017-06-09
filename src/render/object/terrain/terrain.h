@@ -2,8 +2,8 @@
 #define _TERRAIN_H
 
 #include <string>
-#include "../../resource/model/rawModel.h"
-#include "../../resource/texture/terrainTexture.h"
+#include "render/resource/model/rawModel.h"
+#include "render/resource/texture/terrainTexture.h"
 
 using namespace std;
 

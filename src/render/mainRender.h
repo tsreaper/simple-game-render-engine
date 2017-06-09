@@ -1,22 +1,22 @@
 #ifndef _MAIN_RENDER_H
 #define _MAIN_RENDER_H
 
-#include "../glew.h"
+#include "glew.h"
 
-#include "object/scene/scene.h"
+#include "render/object/scene/scene.h"
 
-#include "object/entity/entityRenderer.h"
-#include "object/terrain/terrainRenderer.h"
-#include "object/water/waterRenderer.h"
-#include "object/skybox/skyboxRenderer.h"
+#include "render/object/entity/entityRenderer.h"
+#include "render/object/terrain/terrainRenderer.h"
+#include "render/object/water/waterRenderer.h"
+#include "render/object/skybox/skyboxRenderer.h"
 
-#include "object/shader/basicShader.h"
-#include "object/entity/entityShader.h"
-#include "object/terrain/terrainShader.h"
-#include "object/water/waterShader.h"
-#include "object/skybox/skyboxShader.h"
+#include "render/object/shader/basicShader.h"
+#include "render/object/entity/entityShader.h"
+#include "render/object/terrain/terrainShader.h"
+#include "render/object/water/waterShader.h"
+#include "render/object/skybox/skyboxShader.h"
 
-#include "object/water/waterFbo.h"
+#include "render/object/water/waterFbo.h"
 
 class MainRender
 {

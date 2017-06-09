@@ -1,14 +1,15 @@
 #include <cmath>
 #include <cstdlib>
+#include <ctime>
 
-#include "../render/object/camera/camera.h"
-#include "../render/object/scene/scene.h"
-#include "../render/object/terrain/terrain.h"
-#include "../render/mainRender.h"
+#include "render/object/camera/camera.h"
+#include "render/object/scene/scene.h"
+#include "render/object/terrain/terrain.h"
+#include "render/mainRender.h"
 
-#include "../utils/input/keyboard.h"
+#include "utils/input/keyboard.h"
 
-#include "mainLogic.h"
+#include "logic/mainLogic.h"
 
 Scene* scene;
 Terrain* terrain;
@@ -16,8 +17,10 @@ Terrain* terrain;
 // Initialize main logic
 void MainLogic::init()
 {
+    srand(time(0));
     // Create scene
-    scene = new Scene(512, 3000, 512, 1, 1, 1, 0);
+    scene = new Scene(0);
+    scene->addLight(512, 3000, 512, 0.3, 0.3, 0.3);
     MainRender::setScene(scene);
 
     // Add terrain
@@ -66,6 +69,27 @@ void MainLogic::init()
         }
         while (y < 0);
         scene->addEntity("fern", x, y, z, 0, rand(), 0, 1, rand()%4);
+    }
+
+    // Add random light sources
+    for (int i = 0; i < 15; i++)
+    {
+        float x, y, z;
+        do
+        {
+            x = 1.0 * rand() / RAND_MAX * 1024;
+            z = 1.0 * rand() / RAND_MAX * 1024;
+            y = terrain->getHeight(x, z);
+        }
+        while (y < 0);
+        scene->addEntity("lamp", x, y, z);
+
+        float r, g, b;
+        int rnd = rand() % 7 + 1;
+        r = rnd & 1;
+        g = rnd>>1 & 1;
+        b = rnd>>2 & 1;
+        scene->addLight(x, y + 14.7, z, r, g, b, 1, 0.005, 0.001);
     }
 
     // Set initial position of camera

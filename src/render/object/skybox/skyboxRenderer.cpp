@@ -1,6 +1,6 @@
-#include "../../../utils/math/math.h"
-#include "../camera/camera.h"
-#include "skyboxRenderer.h"
+#include "utils/math/math.h"
+#include "render/object/camera/camera.h"
+#include "render/object/skybox/skyboxRenderer.h"
 
 // Render a skybox
 void SkyboxRenderer::render(const Skybox* skybox, SkyboxShader* shader)
