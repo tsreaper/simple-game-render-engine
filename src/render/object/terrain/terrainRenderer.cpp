@@ -1,6 +1,8 @@
 #include <algorithm>
 
 #include "utils/math/math.h"
+#include "utils/struct/struct.h"
+
 #include "render/object/camera/camera.h"
 #include "render/resource/texture/terrainTexture.h"
 #include "render/object/terrain/terrainRenderer.h"
@@ -12,7 +14,7 @@ void TerrainRenderer::render(const Terrain* terrain, Light* light[], int lightSi
 {
     // Calculate transformation matrix
     float* transMatrix = Math::createTransMatrix(
-        terrain->getX(), 0, terrain->getZ(), 0, 0, 0, 1
+        vec3(terrain->getX(), 0, terrain->getZ()), vec3(0, 0, 0), 1
     );
     shader->loadTransMatrix(transMatrix);
 
@@ -65,12 +67,13 @@ void TerrainRenderer::unbindTerrain()
 void TerrainRenderer::sortLight(Light* light[], int lightSize)
 {
     // If light source is nearer to the camera, it has higher priority
+    vec3 pos = Camera::getPos();
     sort(
         light, light + lightSize,
-        [](Light* a, Light* b) -> bool
+        [&](Light* a, Light* b) -> bool
         {
-            float attA = a->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
-            float attB = b->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
+            float attA = a->calcAttenuation(pos);
+            float attB = b->calcAttenuation(pos);
             return attA < attB;
         }
     );

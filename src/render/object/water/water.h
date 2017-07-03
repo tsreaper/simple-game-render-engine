@@ -1,6 +1,8 @@
 #ifndef _WATER_H
 #define _WATER_H
 
+#include "utils/struct/struct.h"
+
 #include "render/resource/model/rawModel.h"
 #include "render/resource/texture/plainTexture.h"
 
@@ -18,14 +20,8 @@ public:
     // Destructor
     ~Water();
 
-    // Get X coordinate
-    float getX() const;
-
-    // Get Y coordinate
-    float getY() const;
-
-    // Get Z coordinate
-    float getZ() const;
+    // Get water position
+    vec3 getPos() const;
 
     // Get grid-X coordinate
     int getGridX() const;
@@ -50,8 +46,8 @@ private:
     // Grid coordinates of the water
     int gridX, gridZ;
 
-    // Position of the water
-    float x, y, z;
+    // Water position
+    vec3 pos;
 
     // Raw model (a quad) of the water
     RawModel* model;

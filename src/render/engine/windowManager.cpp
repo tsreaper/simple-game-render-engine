@@ -1,8 +1,10 @@
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 #include <string>
 
 #include "utils/input/keyboard.h"
+#include "thirdparty/lodepng/lodepng.h"
 #include "render/engine/windowManager.h"
 
 using namespace std;
@@ -106,6 +108,32 @@ void WindowManager::updateFps()
         lastTime = currentTime;
         renderedFrames = 0;
     }
+}
+
+// Take screenshot of window
+void WindowManager::takeScreenshot(const char* filename)
+{
+    // Read screenshot
+    unsigned char* img = new unsigned char[4 * WINDOW_WIDTH * WINDOW_HEIGHT];
+    glReadPixels(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, img);
+
+    // Flip screenshot
+    for (int i = 0; WINDOW_HEIGHT-i > i; i++)
+        for (int j = 0; j < WINDOW_WIDTH; j++)
+            for (int k = 0; k < 4; k++)
+                swap(img[i*WINDOW_WIDTH*4 + j*4 + k], img[(WINDOW_HEIGHT-1-i)*WINDOW_WIDTH*4 + j*4 + k]);
+
+    // Save screenshot as png
+    vector<unsigned char> png;
+    unsigned error = lodepng::encode(png, img, WINDOW_WIDTH, WINDOW_HEIGHT);
+    if (error)
+    {
+        cerr << "ERROR: [WindowManager::takeScreenshot] Failed to take screen shot. Encode error " << error << ": " << lodepng_error_text(error) << endl;
+        exit(-1);
+    }
+    lodepng::save_file(png, string(filename) + ".png");
+
+    delete[] img;
 }
 
 // Error callback

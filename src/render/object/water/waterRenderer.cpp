@@ -1,6 +1,8 @@
 #include <algorithm>
 
 #include "utils/math/math.h"
+#include "utils/struct/struct.h"
+
 #include "render/object/camera/camera.h"
 #include "render/object/water/waterRenderer.h"
 
@@ -21,7 +23,7 @@ void WaterRenderer::render(const Water* water, Light* light[], int lightSize, Wa
 {
     // Calculate transformation matrix
     float* transMatrix = Math::createTransMatrix(
-        water->getX(), water->getY(), water->getZ(), 0, 0, 0, 1
+        water->getPos(), vec3(0, 0, 0), 1
     );
     shader->loadTransMatrix(transMatrix);
 
@@ -72,12 +74,13 @@ void WaterRenderer::unbindWater()
 void WaterRenderer::sortLight(Light* light[], int lightSize)
 {
     // If light source is nearer to the camera, it has higher priority
+    vec3 pos = Camera::getPos();
     sort(
         light, light + lightSize,
-        [](Light* a, Light* b) -> bool
+        [&](Light* a, Light* b) -> bool
         {
-            float attA = a->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
-            float attB = b->calcAttenuation(Camera::getX(), Camera::getY(), Camera::getZ());
+            float attA = a->calcAttenuation(pos);
+            float attB = b->calcAttenuation(pos);
             return attA < attB;
         }
     );

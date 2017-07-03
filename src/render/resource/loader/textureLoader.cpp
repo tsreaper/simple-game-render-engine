@@ -26,19 +26,18 @@ ModelTexture* TextureLoader::loadModelTexture(const char* name)
     ifstream config("res/entity/" + string(name) + "/config.txt");
     if (!config.is_open())
     {
-        cerr << "ERROR: [TextureLoader::loadModelTexture] Cannot open texture config file" + string(name) + "!" << endl;
+        cerr << "ERROR: [TextureLoader::loadModelTexture] Cannot open texture config file" << name << "!" << endl;
         exit(-1);
     }
 
     float reflectivity = 0, shineDamper = 1;
     bool transparency = false;
     int atlasRows = 1;
-    for (int i = 1; i <= 4; i++)
-    {
-        string s;
-        float value;
-        config >> s >> value;
 
+    string s;
+    float value;
+    while (config >> s >> value)
+    {
         if (s == "reflectivity")
             reflectivity = value;
         else if (s == "shineDamper")
@@ -49,7 +48,7 @@ ModelTexture* TextureLoader::loadModelTexture(const char* name)
             atlasRows = round(value);
         else
         {
-            cerr << "ERROR: [TextureLoader::loadModelTexture] Unknown config property " + s + "!" << endl;
+            cerr << "ERROR: [TextureLoader::loadModelTexture] Unknown config property " << s << "!" << endl;
             exit(-1);
         }
     }
@@ -83,7 +82,7 @@ CubeMapTexture* TextureLoader::loadCubeMapTexture(const char* name)
         error = lodepng_decode32_file(&image[i], &width[i], &height[i], ("res/cube/" + string(name) + "/" + filename[i]).c_str());
         if (error)
         {
-            cerr << "ERROR: [TextureLoader::loadCubeMapTexture] Failed to load cube map texture " + string(name) + "!" << endl;
+            cerr << "ERROR: [TextureLoader::loadCubeMapTexture] Failed to load cube map texture " << name << "!" << endl;
             exit(-1);
         }
     }
@@ -114,7 +113,7 @@ GLuint TextureLoader::loadTexture(const char* filename)
     error = lodepng_decode32_file(&image, &width, &height, filename);
     if (error)
     {
-        cerr << "ERROR: [TextureLoader::loadTexture] Cannot load texture " + string(filename) + "!" << endl;
+        cerr << "ERROR: [TextureLoader::loadTexture] Cannot load texture " << filename << "!" << endl;
         exit(-1);
     }
 

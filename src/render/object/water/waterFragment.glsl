@@ -46,6 +46,7 @@ void main(void)
     vec2 biasedCoord = texture(dudvMap, vec2(texCoord.x + moveFac, texCoord.y)).rg * 0.1;
     biasedCoord = texCoord + vec2(biasedCoord.x ,biasedCoord.y + moveFac);
     vec2 distortion = (texture(dudvMap, biasedCoord).rg*2-1) * WAVE_STRENGTH;
+    // vec2 distortion = vec2(0, 0);
     float texX = passCoord.x/passCoord.w/2+0.5;
     float texY = passCoord.y/passCoord.w/2+0.5;
     float distortedX = clamp(texX + distortion.x, 0.001, 0.999);
@@ -53,11 +54,11 @@ void main(void)
 
     // Water depth effect. Shallow water will be more transparent and less reflective
     float depth = parseDepth(texture(depthMap, vec2(texX, texY)).r) - parseDepth(gl_FragCoord.z);
-    depth = clamp(depth/7, 0.0, 1.0);
+    depth = clamp(depth/10, 0.0, 1.0);
 
     // Calculate light
     vec3 normCol = texture(normMap, biasedCoord).rgb;
-    vec3 norm = vec3(normCol.r*2-1, normCol.b, normCol.g*2-1);
+    vec3 norm = vec3(normCol.r*2-1, normCol.b*1.5, normCol.g*2-1);
     vec3 unitNorm = normalize(norm);
     vec3 unitCamera = normalize(toCameraVec);
 

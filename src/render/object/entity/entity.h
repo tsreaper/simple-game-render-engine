@@ -1,6 +1,8 @@
 #ifndef _ENTITY_H
 #define _ENTITY_H
 
+#include "utils/struct/struct.h"
+
 #include "render/resource/model/rawModel.h"
 #include "render/resource/texture/modelTexture.h"
 
@@ -11,42 +13,24 @@ public:
 
     // Constructor
     Entity(
-        const char* name, float _tX = 0, float _tY = 0, float _tZ = 0,
-        float _rX = 0, float _rY = 0, float _rZ = 0, float _scale = 1, int _atlasPos = 0
+        const char* name, vec3 _pos = vec3(0, 0, 0),
+        vec3 _rot = vec3(0, 0, 0), float _scale = 1, int _atlasPos = 0
     );
 
     // Destructor
     ~Entity();
 
     // Increase position
-    void incPosition(float x, float y, float z);
+    void incPos(float _x, float _y, float _z);
 
     // Increase rotation
-    void incRotation(float x, float y, float z);
+    void incRot(float _pitch, float _yaw, float _roll);
 
-    // Get raw model
-    RawModel* getModel() const;
+    // Get entity position
+    vec3 getPos() const;
 
-    // Get model texture
-    ModelTexture* getTexture() const;
-
-    // Get X coordinate
-    float getTX() const;
-
-    // Get Y coordinate
-    float getTY() const;
-
-    // Get Z coordinate
-    float getTZ() const;
-
-    // Get X rotation
-    float getRX() const;
-
-    // Get Y rotation
-    float getRY() const;
-
-    // Get Z rotation
-    float getRZ() const;
+    // Get entity rotation
+    vec3 getRot() const;
 
     // Get scaling factor
     float getScale() const;
@@ -54,23 +38,17 @@ public:
     // Get position in atlas
     int getAtlasPos() const;
 
-    // Set X coordinate
-    void setTX(float _tX);
+    // Get raw model
+    RawModel* getModel() const;
 
-    // Set Y coordinate
-    void setTY(float _tY);
+    // Get model texture
+    ModelTexture* getTexture() const;
 
-    // Set Z coordinate
-    void setTZ(float _tZ);
+    // Set entity position
+    void setPos(vec3 _pos);
 
-    // Set X rotation
-    void setRX(float _rX);
-
-    // Set Y rotation
-    void setRY(float _rY);
-
-    // Set Z rotation
-    void setRZ(float _rZ);
+    // Set entity rotation
+    void setRot(vec3 _rot);
 
     // Set scaling factor
     void setScale(float _scale);
@@ -80,23 +58,23 @@ public:
 
 private:
 
-    // Entity raw model
-    RawModel* model;
+    // Entity position
+    vec3 pos;
 
-    // Entity texture
-    ModelTexture* texture;
-
-    // XYZ coordinates
-    float tX, tY, tZ;
-
-    // XYZ rotations
-    float rX, rY, rZ;
+    // Entity rotation
+    vec3 rot;
 
     // Scaling factor
     float scale;
 
     // Texture position in an atlas
     int atlasPos;
+
+    // Entity raw model
+    RawModel* model;
+
+    // Entity texture
+    ModelTexture* texture;
 };
 
 #endif

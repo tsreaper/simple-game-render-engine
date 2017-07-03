@@ -3,7 +3,7 @@
 // Constructor
 ModelTexture::ModelTexture(
     const char* _name, GLuint id, float _reflectivity, float _shineDamper, bool _transparency, int _atlasRows
-): name(_name), textureId(id), reflectivity(_reflectivity), shineDamper(_shineDamper), transparency(_transparency) ,atlasRows(_atlasRows) {}
+): name(_name), textureId(id), reflectivity(_reflectivity), shineDamper(_shineDamper), transparency(_transparency), atlasRows(_atlasRows) {}
 
 // Destructor
 ModelTexture::~ModelTexture()
@@ -60,7 +60,7 @@ void ModelTexture::setShineDamper(float _shineDamper)
 }
 
 // Set transparency
-void ModelTexture::setTransparency(float _transparency)
+void ModelTexture::setTransparency(bool _transparency)
 {
     transparency = _transparency;
 }

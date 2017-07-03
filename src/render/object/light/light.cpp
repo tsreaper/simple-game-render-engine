@@ -3,114 +3,48 @@
 
 // Constructor
 Light::Light(
-    float _x, float _y, float _z, float _r, float _g, float _b, float _att0, float _att1, float _att2
-): x(_x), y(_y), z(_z), r(_r), g(_g), b(_b), att0(_att0), att1(_att1), att2(_att2) {}
+    vec3 _pos, vec3 _col, vec3 _att
+): pos(_pos), col(_col), att(_att) {}
 
-// Get X coordinate
-float Light::getX() const
+// Get light position
+vec3 Light::getPos() const
 {
-    return x;
+    return pos;
 }
 
-// Get Y coordinate
-float Light::getY() const
+// Get light color
+vec3 Light::getCol() const
 {
-    return y;
+    return col;
 }
 
-// Get Z coordinate
-float Light::getZ() const
+// Get light attenuation factor
+vec3 Light::getAtt() const
 {
-    return z;
+    return att;
 }
 
-// Get red component
-float Light::getR() const
+// Calculate light attenuation
+float Light::calcAttenuation(vec3 _pos) const
 {
-    return r;
+    float d = Math::distance(pos, _pos);
+    return att.x + att.y * d + att.z * d * d;
 }
 
-// Get green component
-float Light::getG() const
+// Set light position
+void Light::setPos(vec3 _pos)
 {
-    return g;
+    pos = _pos;
 }
 
-// Get blue component
-float Light::getB() const
+// Set light color
+void Light::setCol(vec3 _col)
 {
-    return b;
+    col = _col;
 }
 
-// Get attenuation factor 0
-float Light::getAtt0() const
+// Set light attenuation factor
+void Light::setAtt(vec3 _att)
 {
-    return att0;
-}
-
-// Get attenuation factor 1
-float Light::getAtt1() const
-{
-    return att1;
-}
-
-// Get attenuation factor 2
-float Light::getAtt2() const
-{
-    return att2;
-}
-
-// Calculate light attenuation factor
-float Light::calcAttenuation(float _x, float _y, float _z) const
-{
-    float p[3], q[3];
-    p[0] = _x; p[1] = _y; p[2] = _z;
-    q[0] = x; q[1] = y; q[2] = z;
-
-    float d = Math::distance(p, q, 3);
-    return att0 + att1 * d + att2 * d * d;
-}
-
-// Set X coordinate
-void Light::setX(float _x)
-{
-    x = _x;
-}
-
-// Set Y coordinate
-void Light::setY(float _y)
-{
-    y = _y;
-}
-
-// Set Z coordinate
-void Light::setZ(float _z)
-{
-    z = _z;
-}
-
-// Set red component
-void Light::setR(float _r)
-{
-    r = _r;
-}
-
-// Set green component
-void Light::setG(float _g)
-{
-    g = _g;
-}
-
-// Set blue component
-void Light::setB(float _b)
-{
-    b = _b;
-}
-
-// Set attenuation factor
-void Light::setAttenuation(float _att0, float _att1, float _att2)
-{
-    att0 = _att0;
-    att1 = _att1;
-    att2 = _att2;
+    att = _att;
 }

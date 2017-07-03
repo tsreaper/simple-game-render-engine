@@ -2,6 +2,8 @@
 #define _BASIC_SHADER_H
 
 #include "glew.h"
+#include "utils/struct/struct.h"
+
 #include "render/object/light/light.h"
 #include "render/object/shader/shaderProgram.h"
 
@@ -14,6 +16,9 @@ public:
     static const int SHADER_LOAD_LIGHT;
     static const int SHADER_LOAD_CLIP;
     static const int SHADER_BIND_TEX_NORM;
+
+    // Max light rendered
+    static const int MAX_LIGHT_SIZE;
 
     // Constructor
     BasicShader(const char* vertexFile, const char* fragmentFile, int _mode);
@@ -31,7 +36,7 @@ public:
     void loadLight(Light* light[], int size);
 
     // Load sky color into shader program
-    void loadSkyCol(float r, float g, float b);
+    void loadSkyCol(vec3 col);
 
     // Load clipping plane info into shader program
     void loadClipping(float height, bool clipPositive);

@@ -3,26 +3,34 @@
 #include "render/object/skybox/skybox.h"
 
 // Rotation speed of the skybox
-const float Skybox::ROTATE_SPEED = 0.0001;
+const float Skybox::ROTATE_SPEED = 0.0003;
 
 // Constructor
-Skybox::Skybox()
+Skybox::Skybox(const char* dayTextureName, const char* nightTextureName)
 {
     model = GeometricModel::getGeometricModel(GeometricModel::CUBE);
-    texture = ResourceManager::getResource<CubeMapTexture>("skybox");
+    dayTexture = ResourceManager::getResource<CubeMapTexture>(dayTextureName);
+    nightTexture = ResourceManager::getResource<CubeMapTexture>(nightTextureName);
     angle = 0;
 }
 
 // Destructor
 Skybox::~Skybox()
 {
-    ResourceManager::deleteResource<CubeMapTexture>(texture);
+    ResourceManager::deleteResource<CubeMapTexture>(dayTexture);
+    ResourceManager::deleteResource<CubeMapTexture>(nightTexture);
 }
 
 // Get the rotation angle
 float Skybox::getAngle() const
 {
     return angle;
+}
+
+// Get night factor
+float Skybox::getNightFac() const
+{
+    return nightFac;
 }
 
 // Get the cube model
@@ -32,9 +40,19 @@ RawModel* Skybox::getModel() const
 }
 
 // Get the cube map texture
-CubeMapTexture* Skybox::getTexture() const
+CubeMapTexture* Skybox::getDayTexture() const
 {
-    return texture;
+    return dayTexture;
+}
+CubeMapTexture* Skybox::getNightTexture() const
+{
+    return nightTexture;
+}
+
+// Set night factor
+void Skybox::setNightFac(float _fac)
+{
+    nightFac = _fac;
 }
 
 // Rotate skybox

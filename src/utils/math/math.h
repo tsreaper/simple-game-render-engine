@@ -1,19 +1,21 @@
 #ifndef MATH_H_
 #define MATH_H_
 
+#include "utils/struct/struct.h"
+
 // Math helper class
 class Math
 {
 public:
 
-    // Calculate the distance between two points
-    static float distance(float* p, float* q, int d);
+    // Calculate the distance between two 3D points
+    static float distance(vec3 a, vec3 b);
 
-    // Normalize a vector
-    static void normalize(float* vec, int d);
+    // Normalize a 3D vector
+    static void normalize(vec3 v);
 
     // Create a 4x4 transformation matrix
-    static float* createTransMatrix(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale, bool isCamera = false);
+    static float* createTransMatrix(vec3 pos, vec3 rot, float scale, bool isCamera = false);
 
     // Create a 4x4 projection matrix
     static float* createProjMatrix(float ratio, float fov, float zNear, float zFar);
@@ -27,10 +29,10 @@ private:
     static void leftMulMatrix4(float* A, float* B);
 
     // Calculate rotation matrix
-    static void calcRotationMatrix(float* res, float rX, float rY, float rZ);
+    static void calcRotationMatrix(float* res, vec3 rot, const char* order = "xyz");
 
     // Calculate translation matrix
-    static void calcTranslationMatrix(float* res, float tX, float tY, float tZ);
+    static void calcTranslationMatrix(float* res, vec3 pos);
 };
 
 #endif

@@ -4,15 +4,16 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "utils/math/math.h"
+#include "utils/struct/struct.h"
+#include "render/engine/windowManager.h"
+
+#include "render/object/camera/camera.h"
 #include "render/object/light/light.h"
 #include "render/object/entity/entity.h"
 #include "render/object/terrain/terrain.h"
 #include "render/object/water/water.h"
 #include "render/object/skybox/skybox.h"
-
-#include "utils/math/math.h"
-#include "render/engine/windowManager.h"
-#include "render/object/camera/camera.h"
 
 #include "render/mainRender.h"
 
@@ -88,13 +89,14 @@ void MainRender::render()
     }
 
     // Calculate camera matrix
+    vec3 cameraPos = Camera::getPos();
+    vec3 cameraRot = Camera::getRot();
     float* cameraMatrix = Math::createTransMatrix(
-        -Camera::getX(), -Camera::getY(), -Camera::getZ(),
-        -Camera::getPitch(), Camera::getYaw(), Camera::getRoll(), 1, true
+        -cameraPos, -cameraRot, 1, true
     );
     float* reflectionCameraMatrix = Math::createTransMatrix(
-        -Camera::getX(), Camera::getY() - 2*scene->getWaterHeight(), -Camera::getZ(),
-        Camera::getPitch(), Camera::getYaw(), Camera::getRoll(), 1, true
+        vec3(-cameraPos.x, cameraPos.y - 2*scene->getWaterHeight(), -cameraPos.z),
+        vec3(cameraRot.x, -cameraRot.y, -cameraRot.z), 1, true
     );
 
     // Render scene
@@ -147,7 +149,8 @@ void MainRender::renderWithoutWater(const float* cameraMatrix, float clipHeight,
 {
     // Prepare to render
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glClearColor(0.61, 0.76, 0.88, 1);
+    vec3 skyCol = scene->getSkyCol();
+    glClearColor(skyCol.x, skyCol.y, skyCol.z, 1);
 
     // Get light in scene
     const unordered_set<Light*>* lightSet = scene->getAllLight();
@@ -204,12 +207,12 @@ void MainRender::renderWater(const float* cameraMatrix, const float* reflectionC
 
     // Render water refraction effect
     waterFbo->bindRefractionFbo();
-    renderWithoutWater(cameraMatrix, scene->getWaterHeight() + 1, true);
+    renderWithoutWater(cameraMatrix, scene->getWaterHeight() + 2, true);
     waterFbo->unbindFbo();
 
     // Render water reflection effect
     waterFbo->bindReflectionFbo();
-    renderWithoutWater(reflectionCameraMatrix, scene->getWaterHeight() - 1, false);
+    renderWithoutWater(reflectionCameraMatrix, scene->getWaterHeight() - 2, false);
     waterFbo->unbindFbo();
 
     // Render water
@@ -232,6 +235,6 @@ void MainRender::prepareShader(BasicShader* shader, const float* cameraMatrix, f
 {
     shader->start();
     shader->loadCameraMatrix(cameraMatrix);
-    shader->loadSkyCol(0.61, 0.76, 0.88);
+    shader->loadSkyCol(scene->getSkyCol());
     shader->loadClipping(clipHeight, clipPositive);
 }

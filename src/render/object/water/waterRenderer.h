@@ -2,6 +2,7 @@
 #define _WATER_RENDERER_H
 
 #include "glew.h"
+
 #include "render/object/light/light.h"
 #include "render/object/water/water.h"
 #include "render/object/water/waterFbo.h"

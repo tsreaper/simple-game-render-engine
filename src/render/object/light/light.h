@@ -1,75 +1,47 @@
 #ifndef _LIGHT_H
 #define _LIGHT_H
 
+#include "utils/struct/struct.h"
+
 // Light source
 class Light
 {
 public:
 
     // Constructor
-    Light(float _x, float _y, float _z, float _r, float _g, float _b, float _att0 = 1, float _att1 = 0, float _att2 = 0);
+    Light(vec3 _pos, vec3 _col, vec3 _att);
 
-    // Get X coordinate
-    float getX() const;
+    // Get light position
+    vec3 getPos() const;
 
-    // Get Y coordinate
-    float getY() const;
-
-    // Get Z coordinate
-    float getZ() const;
-
-    // Get red component
-    float getR() const;
-
-    // Get green component
-    float getG() const;
-
-    // Get blue component
-    float getB() const;
-
-    // Get attenuation factor 0
-    float getAtt0() const;
-
-    // Get attenuation factor 1
-    float getAtt1() const;
-
-    // Get attenuation factor 2
-    float getAtt2() const;
+    // Get light color
+    vec3 getCol() const;
 
     // Get light attenuation factor
-    float calcAttenuation(float _x, float _y, float _z) const;
+    vec3 getAtt() const;
 
-    // Set X coordinate
-    void setX(float _x);
+    // Calculate light attenuation
+    float calcAttenuation(vec3 _pos) const;
 
-    // Set Y coordinate
-    void setY(float _y);
+    // Set light position
+    void setPos(vec3 _pos);
 
-    // Set Z coordinate
-    void setZ(float _z);
-
-    // Set red component
-    void setR(float _r);
-
-    // Set green component
-    void setG(float _g);
-
-    // Set blue component
-    void setB(float _b);
+    // Set light color
+    void setCol(vec3 _col);
 
     // Set light attenuation factor
-    void setAttenuation(float _att0, float _att1, float _att2);
+    void setAtt(vec3 _att);
 
 private:
 
-    // XYZ positions
-    float x, y, z;
+    // Light position
+    vec3 pos;
 
-    // RGB components
-    float r, g, b;
+    // Light color
+    vec3 col;
 
-    // Attenuation components
-    float att0, att1, att2;
+    // Light attenuation factor
+    vec3 att;
 };
 
 #endif

@@ -49,7 +49,7 @@ void main(void)
         float dis = length(toLightVec[i]);
         float attenuation = calcAttenuation(lightAttenuation[i], dis);
 
-        diffuse += dot(unitNorm, unitLight[i])/attenuation * lightCol[i];
+        diffuse += max(dot(unitNorm, unitLight[i]), 0.0)/attenuation * lightCol[i];
 
         vec3 reflectDir = reflect(-unitLight[i], unitNorm);
         specular += pow(max(dot(reflectDir, unitCamera)/attenuation, 0.0), shineDamper) * reflectivity * lightCol[i];

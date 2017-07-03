@@ -1,10 +1,11 @@
-#ifndef _WATER_FBO
-#define _WATER_FBO
+#ifndef _WATER_FBO_H
+#define _WATER_FBO_H
 
 #include "glew.h"
+#include "render/object/fbo/fbo.h"
 
 // FBO of water. Used for texturing water
-class WaterFbo
+class WaterFbo : public Fbo
 {
 public:
 
@@ -54,18 +55,6 @@ private:
 
     // Bind current FBO to render
     void bindFbo(GLuint fbo, int width, int height);
-
-    // Create a new FBO
-    GLuint createFbo();
-
-    // Create texture attachment of FBO
-    GLuint createTexAttachment(int width, int height);
-
-    // Create depth texture attachment of FBO
-    GLuint createDepthTexAttachment(int width, int height);
-
-    // Create depth buffer attachment of FBO
-    GLuint createDepthBufferAttachment(int width, int height);
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define _ENTITY_RENDERER_H
 
 #include "glew.h"
+
 #include "render/object/light/light.h"
 #include "render/object/entity/entity.h"
 #include "render/object/entity/entityShader.h"

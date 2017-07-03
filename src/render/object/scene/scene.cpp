@@ -9,13 +9,13 @@ const float Scene::NO_WATER = -1e10;
 // Constructor
 Scene::Scene(float _waterHeight): waterHeight(_waterHeight)
 {
-    sky = new Skybox();
+    sky = new Skybox("skyboxDay", "skyboxNight");
 }
 
 // Destructor
 Scene::~Scene()
 {
-    // Clean uo light
+    // Clean up light
     for (auto i = lightSet.begin(); i != lightSet.end();)
     {
         auto nxti = next(i);
@@ -73,6 +73,12 @@ float Scene::getWaterHeight() const
     return waterHeight;
 }
 
+// Get sky color
+vec3 Scene::getSkyCol() const
+{
+    return skyCol;
+}
+
 // Get skybox
 Skybox* Scene::getSkybox() const
 {
@@ -111,24 +117,26 @@ void Scene::setWaterHeight(float _waterHeight)
         water->setY(waterHeight);
 }
 
-// Add light into scene
-Light* Scene::addLight(
-    float x, float y, float z, float r, float g, float b,
-    float att0, float att1, float att2
-)
+// Set sky color
+void Scene::setSkyCol(vec3 _col)
 {
-    Light* light = new Light(x, y, z, r, g, b, att0, att1, att2);
+    skyCol = _col;
+}
+
+// Add light into scene
+Light* Scene::addLight(vec3 pos, vec3 col, vec3 att)
+{
+    Light* light = new Light(pos, col, att);
     lightSet.insert(light);
     return light;
 }
 
 // Add an entity into scene
 Entity* Scene::addEntity(
-    const char* name, float tX, float tY, float tZ,
-    float rX, float rY, float rZ, float scale, int atlasPos
+    const char* name, vec3 pos, vec3 rot, float scale, int atlasPos
 )
 {
-    Entity* entity = new Entity(name, tX, tY, tZ, rX, rY, rZ, scale, atlasPos);
+    Entity* entity = new Entity(name, pos, rot, scale, atlasPos);
     if (entityMap.find(name) == entityMap.end())
         entityMap[name] = unordered_set<Entity*>();
     entityMap[name].insert(entity);

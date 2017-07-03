@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "utils/math/math.h"
+#include "utils/struct/struct.h"
+
 #include "render/resource/manager/resourceManager.h"
 #include "render/resource/loader/modelLoader.h"
 #include "thirdparty/lodepng/lodepng.h"
@@ -111,10 +113,13 @@ float Terrain::getHeight(float _x, float _z, bool isWorldCoord) const
 // Get the normal vertex of a position
 void Terrain::getNorm(float _x, float _z, float* _norm) const
 {
-    _norm[0] = getHeight(_x-1, _z, false) - getHeight(_x+1, _z, false);
-    _norm[1] = 2;
-    _norm[2] = getHeight(_x, _z-1, false) - getHeight(_x, _z+1, false);
-    Math::normalize(_norm, 3);
+    vec3 v;
+    v.x = getHeight(_x-1, _z, false) - getHeight(_x+1, _z, false);
+    v.y = 2;
+    v.z = getHeight(_x, _z-1, false) - getHeight(_x, _z+1, false);
+    Math::normalize(v);
+
+    _norm[0] = v.x; _norm[1] = v.y; _norm[2] = v.z;
 }
 
 // Generate terrain raw model by height map
@@ -128,12 +133,12 @@ RawModel* Terrain::genModel(float minHeight, float maxHeight, const char* filena
     error = lodepng_decode32_file(&image, &width, &height, filename);
     if (error)
     {
-        cerr << "ERROR: [Terrain::genModel] Cannot load height map " + string(filename) + "!" << endl;
+        cerr << "ERROR: [Terrain::genModel] Cannot load height map " << filename << "!" << endl;
         exit(-1);
     }
     else if (width != height)
     {
-        cerr << "ERROR: [Terrain::genModel] Height map " + string(filename) + " must be a square!" << endl;
+        cerr << "ERROR: [Terrain::genModel] Height map " << filename << " must be a square!" << endl;
         free(image);
         exit(-1);
     }

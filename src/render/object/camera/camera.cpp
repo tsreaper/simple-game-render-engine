@@ -1,99 +1,47 @@
 #include "render/object/camera/camera.h"
 
-// Positions of camera
-float Camera::x = 0;
-float Camera::y = 0;
-float Camera::z = 0;
+// Camera position
+vec3 Camera::pos = vec3(0, 0, 0);
 
 // Rotations of camera
-float Camera::pitch = 0;
-float Camera::yaw = 0;
-float Camera::roll = 0;
+vec3 Camera::rot = vec3(0, 0, 0);
 
 // Increase position
-void Camera::incPosition(float _x, float _y, float _z)
+void Camera::incPos(float _x, float _y, float _z)
 {
-    x += _x;
-    y += _y;
-    z += _z;
+    pos.x += _x;
+    pos.y += _y;
+    pos.z += _z;
 }
 
 // Increase rotation
-void Camera::incRotation(float _pitch, float _yaw, float _roll)
+void Camera::incRot(float _pitch, float _yaw, float _roll)
 {
-    pitch += _pitch;
-    yaw += _yaw;
-    roll += _roll;
+    rot.x += _pitch;
+    rot.y += _yaw;
+    rot.z += _roll;
 }
 
-// Get X coordinate
-float Camera::getX()
+// Get camera position
+vec3 Camera::getPos()
 {
-    return x;
+    return pos;
 }
 
-// Get Y coordinate
-float Camera::getY()
+// Get camera rotation
+vec3 Camera::getRot()
 {
-    return y;
+    return rot;
 }
 
-// Get Z coordinate
-float Camera::getZ()
+// Set camera position
+void Camera::setPos(vec3 _pos)
 {
-    return z;
+    pos = _pos;
 }
 
-// Get pitch
-float Camera::getPitch()
+// Set camera rotation
+void Camera::setRot(vec3 _rot)
 {
-    return pitch;
-}
-
-// Get yaw
-float Camera::getYaw()
-{
-    return yaw;
-}
-
-// Get roll
-float Camera::getRoll()
-{
-    return roll;
-}
-
-// Set X coordinate
-void Camera::setX(float _x)
-{
-    x = _x;
-}
-
-// Set Y coordinate
-void Camera::setY(float _y)
-{
-    y = _y;
-}
-
-// Set Z coordinate
-void Camera::setZ(float _z)
-{
-    z = _z;
-}
-
-// Set pitch
-void Camera::setPitch(float _pitch)
-{
-    pitch = _pitch;
-}
-
-// Set yaw
-void Camera::setYaw(float _yaw)
-{
-    yaw = _yaw;
-}
-
-// Set roll
-void Camera::setRoll(float _roll)
-{
-    roll = _roll;
+    rot = _rot;
 }

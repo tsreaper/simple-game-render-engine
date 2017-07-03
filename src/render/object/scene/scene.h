@@ -3,6 +3,9 @@
 
 #include <unordered_map>
 #include <unordered_set>
+
+#include "utils/struct/struct.h"
+
 #include "render/object/entity/entity.h"
 #include "render/object/terrain/terrain.h"
 #include "render/object/water/water.h"
@@ -30,6 +33,9 @@ public:
     // Get water height
     float getWaterHeight() const;
 
+    // Get sky color
+    vec3 getSkyCol() const;
+
     // Get skybox
     Skybox* getSkybox() const;
 
@@ -48,16 +54,16 @@ public:
     // Set water height
     void setWaterHeight(float _waterHeight);
 
+    // Set sky color
+    void setSkyCol(vec3 _col);
+
     // Add light into scene
-    Light* addLight(
-        float x, float y, float z, float r, float g, float b,
-        float att0 = 1, float att1 = 0, float att2 = 0
-    );
+    Light* addLight(vec3 pos, vec3 col, vec3 att = vec3(1, 0, 0));
 
     // Add an entity into scene
     Entity* addEntity(
-        const char* name, float tX = 0, float tY = 0, float tZ = 0,
-        float rX = 0, float rY = 0, float rZ = 0, float scale = 1, int atlasPos = 0
+        const char* name, vec3 pos = vec3(0, 0, 0),
+        vec3 rot = vec3(0, 0, 0), float scale = 1, int atlasPos = 0
     );
 
     // Add a terrain into scene
@@ -85,6 +91,9 @@ private:
 
     // Water height in the scene
     float waterHeight;
+
+    // Sky color
+    vec3 skyCol;
 
     // Skybox of the scene
     Skybox* sky;

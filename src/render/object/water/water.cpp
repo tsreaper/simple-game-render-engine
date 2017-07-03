@@ -7,10 +7,12 @@
 const float Water::SIZE = 1024;
 
 // Constructor
-Water::Water(int _gridX, int _gridZ, float _y): gridX(_gridX), gridZ(_gridZ), y(_y)
+Water::Water(int _gridX, int _gridZ, float _y): gridX(_gridX), gridZ(_gridZ)
 {
     // Set the coordinates
-    x = gridX * SIZE; z = gridZ * SIZE;
+    pos.x = gridX * SIZE;
+    pos.y = _y;
+    pos.z = gridZ * SIZE;
 
     // Set model and texture
     model = GeometricModel::getGeometricModel(GeometricModel::SQUARE_XZ);
@@ -25,22 +27,10 @@ Water::~Water()
     ResourceManager::deleteResource<PlainTexture>(norm);
 }
 
-// Get X coordinate
-float Water::getX() const
+// Get water position
+vec3 Water::getPos() const
 {
-    return x;
-}
-
-// Get Y coordinate
-float Water::getY() const
-{
-    return y;
-}
-
-// Get Z coordinate
-float Water::getZ() const
-{
-    return z;
+    return pos;
 }
 
 // Get grid-X coordinate
@@ -76,5 +66,5 @@ PlainTexture* Water::getNorm() const
 // Set Y coordinate
 void Water::setY(float _y)
 {
-    y = _y;
+    pos.y = _y;
 }

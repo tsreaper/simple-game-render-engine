@@ -12,33 +12,44 @@ public:
     static const float ROTATE_SPEED;
 
     // Constructor
-    Skybox();
+    Skybox(const char* dayTextureName, const char* nightTextureName);
 
     // Destructor
     ~Skybox();
 
-    // Get the rotation angle
+    // Get rotation angle
     float getAngle() const;
+
+    // Get night factor
+    float getNightFac() const;
 
     // Get the cube model
     RawModel* getModel() const;
 
     // Get the cube map texture
-    CubeMapTexture* getTexture() const;
+    CubeMapTexture* getDayTexture() const;
+    CubeMapTexture* getNightTexture() const;
+
+    // Set night factor
+    void setNightFac(float _fac);
 
     // Rotate skybox
     void rotate();
 
 private:
 
+    // Rotation angle of the skybox
+    float angle;
+
+    // Night factor
+    float nightFac;
+
     // Raw cube model
     RawModel* model;
 
     // Cube map texture
-    CubeMapTexture* texture;
-
-    // Rotation angle of the skybox
-    float angle;
+    CubeMapTexture* dayTexture;
+    CubeMapTexture* nightTexture;
 };
 
 #endif

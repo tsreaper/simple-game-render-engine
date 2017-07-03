@@ -2,6 +2,7 @@
 #define _SHADER_PROGRAM_H
 
 #include "glew.h"
+#include "utils/struct/struct.h"
 
 // Base class for shader
 class ShaderProgram
@@ -47,7 +48,7 @@ protected:
     void loadBool(GLuint loc, bool value);
 
     // Load 3D vector into uniform by location
-    void loadVector3(GLuint loc, float x, float y, float z);
+    void loadVector3(GLuint loc, vec3 vec);
 
     // Load 4x4 matrix into uniform by location
     void loadMatrix4(GLuint loc, const float *value);

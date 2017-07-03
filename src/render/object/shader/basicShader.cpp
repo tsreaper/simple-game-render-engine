@@ -8,6 +8,9 @@ const int BasicShader::SHADER_LOAD_LIGHT = 1;
 const int BasicShader::SHADER_LOAD_CLIP = 2;
 const int BasicShader::SHADER_BIND_TEX_NORM = 4;
 
+// Max light rendered
+const int BasicShader::MAX_LIGHT_SIZE = 8;
+
 // Constructor
 BasicShader::BasicShader(const char* vertexFile, const char* fragmentFile, int _mode): ShaderProgram(vertexFile, fragmentFile)
 {
@@ -42,26 +45,26 @@ void BasicShader::loadLight(Light* light[], int size)
 {
     if (mode & SHADER_LOAD_LIGHT)
     {
-        int cnt = min(size, 8);
+        int cnt = min(size, MAX_LIGHT_SIZE);
         for (int i = 0; i < cnt; i++)
         {
-            loadVector3(lightPosLoc[i], light[i]->getX(), light[i]->getY(), light[i]->getZ());
-            loadVector3(lightColLoc[i], light[i]->getR(), light[i]->getG(), light[i]->getB());
-            loadVector3(lightAttenuationLoc[i], light[i]->getAtt0(), light[i]->getAtt1(), light[i]->getAtt2());
+            loadVector3(lightPosLoc[i], light[i]->getPos());
+            loadVector3(lightColLoc[i], light[i]->getCol());
+            loadVector3(lightAttenuationLoc[i], light[i]->getAtt());
         }
-        for (int i = size; i < 8; i++)
+        for (int i = size; i < MAX_LIGHT_SIZE; i++)
         {
-            loadVector3(lightPosLoc[i], 0, 0, 0);
-            loadVector3(lightColLoc[i], 0, 0, 0);
-            loadVector3(lightAttenuationLoc[i], 1, 0, 0);
+            loadVector3(lightPosLoc[i], vec3(0, 0, 0));
+            loadVector3(lightColLoc[i], vec3(0, 0, 0));
+            loadVector3(lightAttenuationLoc[i], vec3(1, 0, 0));
         }
     }
 }
 
 // Load sky color into shader program
-void BasicShader::loadSkyCol(float r, float g, float b)
+void BasicShader::loadSkyCol(vec3 col)
 {
-    loadVector3(skyColLoc, r, g, b);
+    loadVector3(skyColLoc, col);
 }
 
 // Load clipping plane info into shader program
@@ -83,7 +86,7 @@ void BasicShader::getAllUniformLocs()
 
     if (mode & SHADER_LOAD_LIGHT)
     {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < MAX_LIGHT_SIZE; i++)
         {
             lightPosLoc[i] = getUniformLoc(("lightPos[" + to_string(i) + "]").c_str());
             lightColLoc[i] = getUniformLoc(("lightCol[" + to_string(i) + "]").c_str());

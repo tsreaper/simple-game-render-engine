@@ -19,7 +19,7 @@ RawModel* ObjLoader::loadObj(const char* name)
 
     if (!obj.is_open())
     {
-        cerr << "ERROR: [ObjLoader::loadObj] Cannot load model " + string(name) + "!" << endl;
+        cerr << "ERROR: [ObjLoader::loadObj] Cannot load model " << name << "!" << endl;
         exit(-1);
     }
 

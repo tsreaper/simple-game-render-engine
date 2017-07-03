@@ -28,7 +28,7 @@ private:
     GLuint kLoc, rLoc, gLoc, bLoc;
 
     // Location of blend map in the shader program
-    int blendLoc;
+    GLuint blendLoc;
 
     // Connect texture units to shader program
     void connectTextures();

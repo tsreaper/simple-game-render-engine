@@ -1,6 +1,8 @@
 #include <algorithm>
 
+#include "utils/struct/struct.h"
 #include "utils/math/math.h"
+
 #include "render/resource/texture/modelTexture.h"
 #include "render/object/entity/entityRenderer.h"
 
@@ -11,8 +13,7 @@ void EntityRenderer::render(const Entity* entity, Light* light[], int lightSize,
 {
     // Calculate transformation matrix
     float* transMatrix = Math::createTransMatrix(
-        entity->getTX(), entity->getTY(), entity->getTZ(),
-        entity->getRX(), entity->getRY(), entity->getRZ(),
+        entity->getPos(), entity->getRot(),
         entity->getScale()
     );
     shader->loadTransMatrix(transMatrix);
@@ -65,12 +66,13 @@ void EntityRenderer::unbindEntity()
 void EntityRenderer::sortLight(Light* light[], int lightSize, const Entity* entity)
 {
     // If light source is nearer to entity, it has higher priority
+    vec3 pos = entity->getPos();
     sort(
         light, light + lightSize,
         [&](Light* a, Light* b) -> bool
         {
-            float attA = a->calcAttenuation(entity->getTX(), entity->getTY(), entity->getTZ());
-            float attB = b->calcAttenuation(entity->getTX(), entity->getTY(), entity->getTZ());
+            float attA = a->calcAttenuation(pos);
+            float attB = b->calcAttenuation(pos);
             return attA < attB;
         }
     );

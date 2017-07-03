@@ -1,28 +1,27 @@
 #include <cmath>
 #include "utils/math/math.h"
 
-// Calculate the distance between two points
-float Math::distance(float* p, float* q, int d)
+// Calculate the distance between two 3D points
+float Math::distance(vec3 a, vec3 b)
 {
-    float dis = 0;
-    for (int i = 0; i < d; i++)
-        dis += (p[i] - q[i]) * (p[i] - q[i]);
-    return sqrt(dis);
+    return sqrt(
+        (a.x - b.x) * (a.x - b.x) +
+        (a.y - b.y) * (a.y - b.y) +
+        (a.z - b.z) * (a.z - b.z)
+    );
 }
 
-// Normalize a vector
-void Math::normalize(float* vec, int d)
+// Normalize a 3D vector
+void Math::normalize(vec3 v)
 {
-    float len = 0;
-    for (int i = 0; i < d; i++)
-        len += vec[i] * vec[i];
-    len = sqrt(len);
-    for (int i = 0; i < d; i++)
-        vec[i] /= len;
+    float len = distance(v, vec3(0, 0, 0));
+    v.x /= len;
+    v.y /= len;
+    v.z /= len;
 }
 
 // Create a 4x4 transformation matrix
-float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY, float rZ, float scale, bool isCamera)
+float* Math::createTransMatrix(vec3 pos, vec3 rot, float scale, bool isCamera)
 {
     // Initialize a 4x4 identity matrix;
     float* res = new float[4*4];
@@ -42,13 +41,13 @@ float* Math::createTransMatrix(float tX, float tY, float tZ, float rX, float rY,
 
     if (isCamera)
     {
-        calcTranslationMatrix(res, tX, tY, tZ);
-        calcRotationMatrix(res, rX, rY, rZ);
+        calcTranslationMatrix(res, pos);
+        calcRotationMatrix(res, rot, "zyx");
     }
     else
     {
-        calcRotationMatrix(res, rX, rY, rZ);
-        calcTranslationMatrix(res, tX, tY, tZ);
+        calcRotationMatrix(res, rot);
+        calcTranslationMatrix(res, pos);
     }
 
     return res;
@@ -89,48 +88,58 @@ void Math::leftMulMatrix4(float* A, float* B)
 }
 
 // Calculate rotation matrix
-void Math::calcRotationMatrix(float* res, float rX, float rY, float rZ)
+void Math::calcRotationMatrix(float* res, vec3 rot, const char* order)
 {
-    // Rotate Z
-    float* rotateZMatrix = new float[4*4] {
-        (float)cos(rZ), (float)-sin(rZ), 0, 0,
-        (float)sin(rZ), (float)cos(rZ), 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-    };
-    leftMulMatrix4(res, rotateZMatrix);
-    delete[] rotateZMatrix;
-
-    // Rotate Y
-    float* rotateYMatrix = new float[4*4] {
-        (float)cos(rY), 0, (float)-sin(rY), 0,
-        0, 1, 0, 0,
-        (float)sin(rY), 0, (float)cos(rY), 0,
-        0, 0, 0, 1
-    };
-    leftMulMatrix4(res, rotateYMatrix);
-    delete[] rotateYMatrix;
-
-    // Rotate X
-    float* rotateXMatrix = new float[4*4] {
-        1, 0, 0, 0,
-        0, (float)cos(rX), (float)sin(rX), 0,
-        0, (float)-sin(rX), (float)cos(rX), 0,
-        0, 0, 0, 1
-    };
-    leftMulMatrix4(res, rotateXMatrix);
-    delete[] rotateXMatrix;
+    for (int i = 0; i < 3; i++)
+    {
+        if (order[i] == 'x')
+        {
+            // Pitch
+            float* rotateXMatrix = new float[4*4] {
+                1, 0, 0, 0,
+                0, (float)cos(rot.x), (float)sin(rot.x), 0,
+                0, (float)-sin(rot.x), (float)cos(rot.x), 0,
+                0, 0, 0, 1
+            };
+            leftMulMatrix4(res, rotateXMatrix);
+            delete[] rotateXMatrix;
+        }
+        else if (order[i] == 'y')
+        {
+            // Yaw
+            float* rotateYMatrix = new float[4*4] {
+                (float)cos(rot.y), 0, (float)-sin(rot.y), 0,
+                0, 1, 0, 0,
+                (float)sin(rot.y), 0, (float)cos(rot.y), 0,
+                0, 0, 0, 1
+            };
+            leftMulMatrix4(res, rotateYMatrix);
+            delete[] rotateYMatrix;
+        }
+        else
+        {
+            // Roll
+            float* rotateZMatrix = new float[4*4] {
+                (float)cos(rot.z), (float)sin(rot.z), 0, 0,
+                (float)-sin(rot.z), (float)cos(rot.z), 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            };
+            leftMulMatrix4(res, rotateZMatrix);
+            delete[] rotateZMatrix;
+        }
+    }
 }
 
 // Calculate translation matrix
-void Math::calcTranslationMatrix(float* res, float tX, float tY, float tZ)
+void Math::calcTranslationMatrix(float* res, vec3 pos)
 {
     // Translation
     float* translationMatrix = new float[4*4] {
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        tX, tY, tZ, 1
+        pos.x, pos.y, pos.z, 1
     };
     leftMulMatrix4(res, translationMatrix);
     delete[] translationMatrix;

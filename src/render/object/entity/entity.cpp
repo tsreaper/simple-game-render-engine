@@ -3,9 +3,8 @@
 
 // Constructor
 Entity::Entity(
-    const char* name, float _tX, float _tY, float _tZ,
-    float _rX, float _rY, float _rZ, float _scale, int _atlasPos
-): tX(_tX), tY(_tY), tZ(_tZ), rX(_rX), rY(_rY), rZ(_rZ), scale(_scale), atlasPos(_atlasPos)
+    const char* name, vec3 _pos, vec3 _rot, float _scale, int _atlasPos
+): pos(_pos), rot(_rot), scale(_scale), atlasPos(_atlasPos)
 {
     model = ResourceManager::getResource<RawModel>(name);
     texture = ResourceManager::getResource<ModelTexture>(name);
@@ -19,67 +18,31 @@ Entity::~Entity()
 }
 
 // Increase position
-void Entity::incPosition(float x, float y, float z)
+void Entity::incPos(float _x, float _y, float _z)
 {
-    tX += x;
-    tY += y;
-    tZ += z;
+    pos.x += _x;
+    pos.y += _y;
+    pos.z += _z;
 }
 
 // Increase rotation
-void Entity::incRotation(float x, float y, float z)
+void Entity::incRot(float _pitch, float _yaw, float _roll)
 {
-    rX += x;
-    rY += y;
-    rZ += z;
+    rot.x += _pitch;
+    rot.y += _yaw;
+    rot.z += _roll;
 }
 
-// Get raw model
-RawModel* Entity::getModel() const
+// Get entity position
+vec3 Entity::getPos() const
 {
-    return model;
+    return pos;
 }
 
-// Get model texture
-ModelTexture* Entity::getTexture() const
+// Get entity rotation
+vec3 Entity::getRot() const
 {
-    return texture;
-}
-
-// Get X coordinate
-float Entity::getTX() const
-{
-    return tX;
-}
-
-// Get Y coordinate
-float Entity::getTY() const
-{
-    return tY;
-}
-
-// Get Z coordinate
-float Entity::getTZ() const
-{
-    return tZ;
-}
-
-// Get X rotation
-float Entity::getRX() const
-{
-    return rX;
-}
-
-// Get Y rotation
-float Entity::getRY() const
-{
-    return rY;
-}
-
-// Get Z rotation
-float Entity::getRZ() const
-{
-    return rZ;
+    return rot;
 }
 
 // Get scaling factor
@@ -94,40 +57,28 @@ int Entity::getAtlasPos() const
     return atlasPos;
 }
 
-// Set X coordinate
-void Entity::setTX(float _tX)
+// Get raw model
+RawModel* Entity::getModel() const
 {
-    tX = _tX;
+    return model;
 }
 
-// Set Y coordinate
-void Entity::setTY(float _tY)
+// Get model texture
+ModelTexture* Entity::getTexture() const
 {
-    tY = _tY;
+    return texture;
 }
 
-// Set Z coordinate
-void Entity::setTZ(float _tZ)
+// Set entity position
+void Entity::setPos(vec3 _pos)
 {
-    tZ = _tZ;
+    pos = _pos;
 }
 
-// Set X rotation
-void Entity::setRX(float _rX)
+// Set entity rotation
+void Entity::setRot(vec3 _rot)
 {
-    rX = _rX;
-}
-
-// Set Y rotation
-void Entity::setRY(float _rY)
-{
-    rY = _rY;
-}
-
-// Set Z rotation
-void Entity::setRZ(float _rZ)
-{
-    rZ = _rZ;
+    rot = _rot;
 }
 
 // Set scaling factor

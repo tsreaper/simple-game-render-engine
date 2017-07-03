@@ -32,6 +32,9 @@ public:
 
     // Show FPS on the window title
     static void updateFps();
+    
+    // Take screenshot of window
+    static void takeScreenshot(const char* filename);
 
 private:
 

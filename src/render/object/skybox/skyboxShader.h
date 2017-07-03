@@ -16,6 +16,26 @@ public:
 
     // Constructor
     SkyboxShader();
+
+    // Load night factor into shader program
+    void loadNightFac(float nightFac);
+
+protected:
+
+    // Get all uniform locations
+    void getAllUniformLocs() override;
+
+private:
+
+    // Locations of day/night textures in shader program
+    GLuint dayLoc, nightLoc;
+
+    // Location of night factor in shader program
+    GLuint nightFacLoc;
+
+    // Connect texture units to shader program
+    void connectTextures();
+    
 };
 
 #endif
