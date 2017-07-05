@@ -16,7 +16,7 @@ const int WindowManager::WINDOW_WIDTH = 1280;
 const int WindowManager::WINDOW_HEIGHT = 720;
 
 // Window title
-const char* WindowManager::WINDOW_TITLE = "OpenGL Game";
+const char* WindowManager::WINDOW_TITLE = "Simple Game Render Engine";
 
 // Window pointer
 GLFWwindow* WindowManager::window = NULL;
