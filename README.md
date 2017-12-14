@@ -43,7 +43,7 @@ If you want to build this project from source code, you will need the following 
 - glew
 - glfw
 
-You will also need a "res" folder to provide the executable file with the resources it needs. You can download the "res" zipped file [here\(DropBox\)](https://www.dropbox.com/s/3wnedakeeb4ddec/res.zip?dl=0) or [here\(Baidu Netdisk\)](http://pan.baidu.com/s/1eSKOPns) (Please note that all the resources in the "res" folder belong to their original author, aka ThinMatrix).
+You will also need a "res" folder to provide the executable file with the resources it needs. You can download the "res" zipped file [here\(DropBox\)](https://www.dropbox.com/s/3wnedakeeb4ddec/res.zip?dl=0) or [here\(Baidu Netdisk\)](http://pan.baidu.com/s/1o8sWhSm) (Please note that all the resources in the "res" folder belong to their original author, aka ThinMatrix).
 
 After downloading, decompress "res.zip" and put the "res" folder in the project root folder, so that the file structure looks like this:
 ```
